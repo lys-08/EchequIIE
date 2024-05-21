@@ -38,7 +38,7 @@ public class Direction //: MonoBehaviour
         return new Direction(dir1.RowDelta + dir2.RowDelta, dir1.ColumnDelta + dir2.ColumnDelta);
     }
     
-    public static Direction operator*(Direction dir, int i)
+    public static Direction operator*(int i, Direction dir)
     {
         return new Direction(dir.RowDelta * i, dir.ColumnDelta * i);
     }
