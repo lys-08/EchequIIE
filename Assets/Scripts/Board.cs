@@ -43,8 +43,8 @@ public class Board : MonoBehaviour
             for (int j = 0; j < 8; j++)
             {
                 var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
-                piece1.transform.position = new Vector3(j * 1.25f, 0, i * 1.25f);
                 piece1.transform.localScale = Vector3.one;
+                piece1.transform.position = new Vector3(j * 1.25f * 0.02f, 0.05f * 0.02f, i * 1.25f * 0.02f);
                 pieces[i, j] = piece1;
             }
         }
