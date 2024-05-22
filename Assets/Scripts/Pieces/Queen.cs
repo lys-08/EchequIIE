@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Queen : Piece
 {
-    public override PieceType Type => PieceType.Pawn;
+    public override PieceType Type => PieceType.Queen;
     public override Player Color { get; set; }
     
     // Directions of the queen
@@ -22,10 +22,14 @@ public class Queen : Piece
     };
     
 
+    public Queen(Player color)
+    {
+        Color = color;
+    }
+    
     public override Piece Copy()
     {
-        Queen copy = new Queen();
-        copy.Color = Color;
+        Queen copy = new Queen(Color);
         copy.HasMoved = HasMoved;
         return copy;
     }

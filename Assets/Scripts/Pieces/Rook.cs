@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Rook : Piece
 {
-    public override PieceType Type => PieceType.Pawn;
+    public override PieceType Type => PieceType.Rook;
     public override Player Color { get; set; }
     
     // Directions of the rook
@@ -17,9 +17,14 @@ public class Rook : Piece
         Direction.West
     };
 
+    public Rook(Player color)
+    {
+        Color = color;
+    }
+    
     public override Piece Copy()
     {
-        Rook copy = new Rook();
+        Rook copy = new Rook(Color);
         copy.HasMoved = HasMoved;
         return copy;
     }

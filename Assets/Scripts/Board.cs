@@ -7,8 +7,8 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     // Prefabs
-    [SerializeField] private List<GameObject> whitePieces = new List<GameObject>();
-    [SerializeField] private List<GameObject> blackPieces = new List<GameObject>();
+    [SerializeField] public List<GameObject> whitePieces = new List<GameObject>();
+    [SerializeField] public List<GameObject> blackPieces = new List<GameObject>();
     [SerializeField] private GameObject piece;
     
     // The board is an array of pieces
