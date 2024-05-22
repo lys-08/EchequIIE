@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bishop : Piece
 {
     public override PieceType Type => PieceType.Bishop;
-    public override Player Color { get; }
+    public override Player Color { get; set; }
 
     // Directions of the bishop
     private static readonly Direction[] directions = new Direction[]

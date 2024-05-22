@@ -5,7 +5,7 @@ using UnityEngine;
 public class King : Piece
 {
     public override PieceType Type => PieceType.King;
-    public override Player Color { get; }
+    public override Player Color { get; set; }
     
     // Directions of the king
     private static readonly Direction[] directions = new Direction[]
@@ -42,7 +42,7 @@ public class King : Piece
         {
             Position toPos = pos + dir;
             if (Board.IsInside(toPos)) continue; // The position is inside the board
-            if (board.IsEmpty(toPos) || board[toPos].Color != Color) yield return toPos; // there is no piece or there is an opponent piece
+            if (board.IsEmpty(toPos) || board[toPos].GetComponent<Piece>().Color != Color) yield return toPos; // there is no piece or there is an opponent piece
         }
     }
 

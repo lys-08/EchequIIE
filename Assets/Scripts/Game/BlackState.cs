@@ -17,6 +17,7 @@ public class BlackState : IState
 
     public void Enter()
     {
+        Debug.Log("Black");
         game.CurrentPlayer = Player.Black;
     }
 

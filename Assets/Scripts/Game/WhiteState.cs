@@ -18,6 +18,7 @@ public class WhiteState : IState
 
     public void Enter()
     {
+        Debug.Log("White");
         game.CurrentPlayer = Player.White;
     }
 

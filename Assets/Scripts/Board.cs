@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Board
+public class Board : MonoBehaviour
 {
+    // Prefabs
+    [SerializeField] private List<GameObject> whitePieces = new List<GameObject>();
+    [SerializeField] private List<GameObject> blackPieces = new List<GameObject>();
+    [SerializeField] private GameObject piece;
+    
     // The board is an array of pieces
-    private readonly Piece[,] pieces = new Piece[8, 8];
+    private GameObject[,] pieces = new GameObject[8,8];
     
     
     /**
      * Return the piece at the row and column given
      */
-    public Piece this[int row, int column]
+    public GameObject this[int row, int column]
     {
         get { return pieces[row, column]; }
         set { pieces[row, column] = value; }
@@ -20,7 +25,7 @@ public class Board
     /**
      * Return the piece at the position given
      */
-    public Piece this[Position pos]
+    public GameObject this[Position pos]
     {
         get { return pieces[pos.Row, pos.Column]; }
         set { pieces[pos.Row, pos.Column] = value; }
@@ -29,11 +34,28 @@ public class Board
     /**
      * Return a board initialized
      */
-    public static Board InitBoard()
+    public Board InitBoard()
     {
-        Board board = new Board();
-        board.AddStartingPieces();
-        return board;
+        Debug.Log("Blank cases");
+        // Instantiation of blank cases
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
+                piece1.transform.position = new Vector3(i * 1.25f, 0, j * 1.25f);
+                piece1.transform.localScale = Vector3.one;
+                pieces[i, j] = piece1;
+            }
+        }
+        Debug.Log(pieces[0,0].transform.position);
+        
+        // Adding the pieces
+        AddStartingPieces();
+        Debug.Log(pieces[0,0].transform.position);
+        
+        // Return the board initialized
+        return this;
     }
 
     /**
@@ -42,28 +64,101 @@ public class Board
      */
     private void AddStartingPieces()
     {
-        this[0, 0] = new Rook(Player.Black);
-        this[0, 1] = new Knight(Player.Black);
-        this[0, 2] = new Bishop(Player.Black);
-        this[0, 3] = new Queen(Player.Black);
-        this[0, 4] = new King(Player.Black);
-        this[0, 5] = new Bishop(Player.Black);
-        this[0, 6] = new Knight(Player.Black);
-        this[0, 7] = new Rook(Player.Black);
+        // BLACK PIECES
+        var obj = Instantiate(blackPieces[0], this[0,0].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Rook>();
+        obj.GetComponent<Rook>().Color = Player.Black;
         
-        this[7, 0] = new Rook(Player.White);
-        this[7, 1] = new Knight(Player.White);
-        this[7, 2] = new Bishop(Player.White);
-        this[7, 3] = new Queen(Player.White);
-        this[7, 4] = new King(Player.White);
-        this[7, 5] = new Bishop(Player.White);
-        this[7, 6] = new Knight(Player.White);
-        this[7, 7] = new Rook(Player.White);
+        obj = Instantiate(blackPieces[0], this[0,7].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Rook>();
+        obj.GetComponent<Rook>().Color = Player.Black;
+        
+        obj = Instantiate(blackPieces[1], this[0,1].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Knight>();
+        obj.GetComponent<Knight>().Color = Player.Black;
+        
+        obj = Instantiate(blackPieces[1], this[0,6].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Knight>();
+        obj.GetComponent<Knight>().Color = Player.Black;
+        
+        obj = Instantiate(blackPieces[1], this[0,2].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Bishop>();
+        obj.GetComponent<Bishop>().Color = Player.Black;
+        
+        obj = Instantiate(blackPieces[1], this[0,5].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Bishop>();
+        obj.GetComponent<Bishop>().Color = Player.Black;
+        
+        obj = Instantiate(blackPieces[1], this[0,3].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Queen>();
+        obj.GetComponent<Queen>().Color = Player.Black;
+        
+        obj = Instantiate(blackPieces[1], this[0,4].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<King>();
+        obj.GetComponent<King>().Color = Player.Black;
+        
+        
+        // White PIECES
+        obj = Instantiate(whitePieces[0], this[7,0].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Rook>();
+        obj.GetComponent<Rook>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[0], this[7,7].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Rook>();
+        obj.GetComponent<Rook>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[1], this[7,1].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Knight>();
+        obj.GetComponent<Knight>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[1], this[7,6].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Knight>();
+        obj.GetComponent<Knight>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[1], this[7,2].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Bishop>();
+        obj.GetComponent<Bishop>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[1], this[7,5].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Bishop>();
+        obj.GetComponent<Bishop>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[1], this[7,3].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<Queen>();
+        obj.GetComponent<Queen>().Color = Player.White;
+        
+        obj = Instantiate(whitePieces[1], this[7,4].transform);
+        obj.transform.localScale = Vector3.one;
+        obj.AddComponent<King>();
+        obj.GetComponent<King>().Color = Player.White;
+        
 
         for (int i = 0; i < 8; i++)
         {
-            this[1, i] = new Pawn(Player.Black);
-            this[6, i] = new Pawn(Player.White);
+            obj = Instantiate(blackPieces[5], this[1,i].transform);
+            obj.transform.localScale = Vector3.one;
+            obj.AddComponent<Pawn>();
+            obj.GetComponent<Pawn>().Color = Player.Black;
+            
+            obj = Instantiate(whitePieces[5], this[6,i].transform);
+            obj.transform.localScale = Vector3.one;
+            obj.AddComponent<Pawn>();
+            obj.GetComponent<Pawn>().Color = Player.White;
         }
     }
 
@@ -80,6 +175,6 @@ public class Board
      */
     public bool IsEmpty(Position pos)
     {
-        return this[pos] == null;
+        return !this[pos].TryGetComponent<Piece>(out var piece);
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public abstract class Piece 
+public abstract class Piece : MonoBehaviour
 {
     public abstract PieceType Type { get; }
-    public abstract Player Color { get; }
+    public abstract Player Color { get; set; }
     public bool HasMoved { get; set; } = false;
 
     
@@ -36,7 +36,7 @@ public abstract class Piece
                 continue;
             }
 
-            Piece piece = board[pos];
+            Piece piece = board[pos].GetComponent<Piece>();
             if (piece.Color != Color) yield return pos;
             
             yield break;

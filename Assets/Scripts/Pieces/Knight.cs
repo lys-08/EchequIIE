@@ -6,7 +6,7 @@ using UnityEngine;
 public class Knight : Piece
 {
     public override PieceType Type => PieceType.Pawn;
-    public override Player Color { get; }
+    public override Player Color { get; set; }
 
     
     public Knight(Player color)
@@ -45,7 +45,7 @@ public class Knight : Piece
     private IEnumerable<Position> MovePositions(Position pos, Board board)
     {
         return PotentialPositions(pos).Where(pos => Board.IsInside(pos)
-                                                    && (board.IsEmpty(pos) || board[pos].Color != Color));
+                                                    && (board.IsEmpty(pos) || board[pos].GetComponent<Piece>().Color != Color));
     }
 
     /**

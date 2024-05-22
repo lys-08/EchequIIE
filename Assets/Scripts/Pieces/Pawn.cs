@@ -7,22 +7,24 @@ using UnityEngine.UI;
 public class Pawn : Piece
 {
     public override PieceType Type => PieceType.Pawn;
-    public override Player Color { get; }
 
-    private readonly Direction forward;
-
-    
-    public Pawn(Player color)
+    private Player color;
+    public override Player Color
     {
-        Color = color;
-        
-        if (color == Player.White) forward = Direction.North;
-        else if (color == Player.Black) forward = Direction.South;
+        get { return color;}
+        set
+        {
+            color = value;
+            if (color == Player.White) forward = Direction.North;
+            else if (color == Player.Black) forward = Direction.South;
+        }
     }
+
+    private Direction forward;
 
     public override Piece Copy()
     {
-        Pawn copy = new Pawn(Color);
+        Pawn copy = new Pawn();
         copy.HasMoved = HasMoved;
         return copy;
     }
@@ -48,7 +50,7 @@ public class Pawn : Piece
         if (!Board.IsInside(pos) || board.IsEmpty(pos)) return false;
         
         // 2
-        return board[pos].Color != Color;
+        return board[pos].GetComponent<Piece>().Color != Color;
     }
 
     /**

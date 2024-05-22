@@ -6,7 +6,7 @@ using UnityEngine;
 public class Queen : Piece
 {
     public override PieceType Type => PieceType.Pawn;
-    public override Player Color { get; }
+    public override Player Color { get; set; }
     
     // Directions of the queen
     private static readonly Direction[] directions = new Direction[]
@@ -20,16 +20,12 @@ public class Queen : Piece
         Direction.SouthEast,
         Direction.SouthWest
     };
-
     
-    public Queen(Player color)
-    {
-        Color = color;
-    }
 
     public override Piece Copy()
     {
-        Queen copy = new Queen(Color);
+        Queen copy = new Queen();
+        copy.Color = Color;
         copy.HasMoved = HasMoved;
         return copy;
     }

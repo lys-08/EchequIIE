@@ -13,13 +13,10 @@ public enum Player
 }
 
 public class Game : MonoBehaviour
-{
-    public Board Board { get; set; }
-    public Image[,] Highlights = new Image[8, 8];
-    private readonly Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
-    private Position selectedPos = null;
+{ 
+    [field: SerializeField] public Board Board { get; set; }
     public Player CurrentPlayer { get; set; }
-       
+    
     // STATE
     private StateMachine stateMachine_;
     public StateMachine GamestateMachine => stateMachine_;
@@ -32,12 +29,12 @@ public class Game : MonoBehaviour
     public IEnumerable<Move> LegalMovesForPiece(Position pos)
     {
         // We check if there is a piece of the player color at the given position
-        if (Board.IsEmpty(pos) || Board[pos].Color != CurrentPlayer)
+        if (Board.IsEmpty(pos) || Board[pos].GetComponent<Piece>().Color != CurrentPlayer)
         {
             return Enumerable.Empty<Move>();
         }
 
-        Piece piece = Board[pos];
+        Piece piece = Board[pos].GetComponent<Piece>();
         return piece.GetMoves(pos, Board);
     }
 
@@ -57,7 +54,9 @@ public class Game : MonoBehaviour
         stateMachine_ = new StateMachine(this); // State
 
         // Initialisation of the board
+        Board = Board.GetComponentInChildren<Board>();
         Board = Board.InitBoard();
+        Debug.Log(Board[0,0].transform.position);
     }
 
     private void Start()

@@ -17,8 +17,8 @@ public class NormalMove : Move
 
     public override void Execute(Board board)
     {
-        Piece piece = board[FromPos];
-        board[ToPos] = piece;
-        board[FromPos] = null;
+        GameObject piece = board[FromPos].GetComponent<Piece>().gameObject;
+        piece.transform.parent = board[ToPos].transform;
+        //board[FromPos] = null;
     }
 }
