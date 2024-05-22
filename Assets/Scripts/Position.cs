@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -41,5 +42,15 @@ public class Position
     public static Position operator+(Position pos, Direction dir)
     {
         return new Position(pos.Row + dir.RowDelta, pos.Column + dir.ColumnDelta);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Row, Column);
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is Position position && Row == position.Row && Column == position.Column;
     }
 }
