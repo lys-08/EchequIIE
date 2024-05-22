@@ -36,11 +36,9 @@ public class ExampleTouch : MonoBehaviour
             {
                 if (hit.collider.gameObject == this.gameObject)
                 {
-                    Debug.Log("hit " + gameObject.name);
-                    
                     Position pos = new Position(row, col);
                     Piece piece = game.Board[pos].GetComponentInChildren<Piece>();
-                    if (piece == null)
+                    if (piece == null  || piece.Color != game.CurrentPlayer)
                     {
                         Debug.Log("nothing");
                         game.OnToPositionSelected(pos);
@@ -48,6 +46,7 @@ public class ExampleTouch : MonoBehaviour
                     else
                     {
                         Debug.Log("piece");
+                        game.HideHighlights();
                         game.OnFromPositionSelected(pos);
                     }
                 }

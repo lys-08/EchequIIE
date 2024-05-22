@@ -98,4 +98,16 @@ public class Pawn : Piece
     {
         return ForwardMoves(pos, board).Concat(DiagonalMoves(pos, board));
     }
+    
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public override bool CanCaptureOpponentKing(Position from, Board board)
+    {
+        return DiagonalMoves(from, board).Any(move =>
+        {
+            Piece piece = board[move.ToPos].GetComponentInChildren<Piece>();
+            return piece != null && piece.Type == PieceType.King;
+        });
+    }
 }

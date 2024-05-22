@@ -18,14 +18,11 @@ public class WhiteState : IState
 
     public void Enter()
     {
-        Debug.Log("White");
         game.CurrentPlayer = Player.White;
     }
 
     public void Update()
     {
-        //game.MakeMove(move);
-        //game.GamestateMachine.TransitionTo(game.GamestateMachine.blackState);
     }
 
     public void Exit()

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -176,5 +178,54 @@ public class Board : MonoBehaviour
     {
         Piece piece = this[pos].GetComponentInChildren<Piece>();
         return piece == null;
+    }
+
+    /**
+     * Returns all the pieces position on the board
+     */
+    public IEnumerable<Position> PiecePositions()
+    {
+        for (int r = 0; r < 8; r++)
+        {
+            for (int c = 0; c < 8; c++)
+            {
+                Position pos = new Position(r, c);
+
+                if (!IsEmpty(pos)) yield return pos;
+            }
+        }
+    }
+
+    /**
+     * Returns all the pieces positions of a player
+     */
+    public IEnumerable<Position> PiecePositionsFor(Player player)
+    {
+        return PiecePositions().Where(pos => this[pos].GetComponentInChildren<Piece>().Color == player);
+    }
+
+    /**
+     * Returns true if the player's king is in check
+     */
+    public bool IsInCheck(Player player)
+    {
+        Player color;
+        if (player == Player.Black) color = Player.White;
+        else color = Player.Black;
+
+        return PiecePositionsFor(color).Any(pos =>
+        {
+            Piece piece = this[pos].GetComponentInChildren<Piece>();
+            return piece.CanCaptureOpponentKing(pos, this);
+        });
+    }
+
+    /**
+     * Copy the board
+     */
+    public Board Copy()
+    {
+        Board copy = Instantiate(this);
+        return copy;
     }
 }

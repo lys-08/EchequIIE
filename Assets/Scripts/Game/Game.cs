@@ -25,7 +25,7 @@ public class Game : MonoBehaviour
     
 
     /**
-     * Returns all the moves that the piece at the given position can make.
+     * Returns all the legal moves that the piece at the given position can make
      * If there is no pieces then return Empty
      */
     public IEnumerable<Move> LegalMovesForPiece(Position pos)
@@ -33,12 +33,13 @@ public class Game : MonoBehaviour
         // We check if there is a piece of the player color at the given position
         if (Board.IsEmpty(pos) || Board[pos].GetComponentInChildren<Piece>().Color != CurrentPlayer)
         {
-            Debug.Log("jkezbdciukhekd");
             return Enumerable.Empty<Move>();
         }
 
         Piece piece = Board[pos].GetComponentInChildren<Piece>();
         return piece.GetMoves(pos, Board);
+        //IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
+        //return moveCandidates.Where(move => move.IsLegal(Board)); // Only the legal move are returned
     }
 
     /**
@@ -64,6 +65,7 @@ public class Game : MonoBehaviour
     {
         // We clear the cache
         moveCache.Clear();
+        HideHighlights();
 
         /*
          * For each moves, we store them in the dictionary
@@ -81,10 +83,8 @@ public class Game : MonoBehaviour
      */
     public void ShowHighlights()
     {
-        Debug.Log("pas de pos");
         foreach (Position toPos in moveCache.Keys)
         {
-            Debug.Log($"tests : {Board[toPos].GetComponentInChildren<SpriteRenderer>()}");
             Board[toPos].GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
     }
@@ -126,6 +126,7 @@ public class Game : MonoBehaviour
         if (moveCache.TryGetValue(pos, out Move move))
         {
             MakeMove(move);
+            moveCache.Clear();
         }
     }
     
