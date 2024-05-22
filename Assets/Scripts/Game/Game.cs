@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public enum Player 
 {
+    None, // For draw
     White, 
     Black
 }
@@ -22,6 +23,8 @@ public class Game : MonoBehaviour
 
     private Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
     public Position selectedPos = null;
+
+    public Result Result { get; private set; } = null;
     
 
     /**
@@ -48,6 +51,8 @@ public class Game : MonoBehaviour
     public void MakeMove(Move move)
     {
         move.Execute(Board);
+        CheckForGameOver();
+        
         if (CurrentPlayer == Player.Black)
         {
             stateMachine_.TransitionTo(stateMachine_.whiteState);
@@ -128,6 +133,44 @@ public class Game : MonoBehaviour
             MakeMove(move);
             moveCache.Clear();
         }
+    }
+
+    /**
+     * Returns all moves the player can make
+     */
+    public IEnumerable<Move> AllLegalMovesFor(Player player)
+    {
+        IEnumerable<Move> moveCandidates = Board.PiecePositionsFor(player).SelectMany(pos =>
+        {
+            Piece piece = Board[pos].GetComponentInChildren<Piece>();
+            return piece.GetMoves(pos, Board);
+        });
+
+        return moveCandidates; //.Where(move => move.IsLegal(Board));
+    }
+
+    /**
+     *
+     */
+    private void CheckForGameOver()
+    {
+        if (!AllLegalMovesFor(CurrentPlayer).Any())
+        {
+            if (Board.IsInCheck(CurrentPlayer))
+            {
+                if (CurrentPlayer == Player.Black) Result = Result.Win(Player.White);
+                else Result = Result.Win(Player.Black);
+            }
+            else
+            {
+                Result = Result.Draw(EndReason.Stalemate);
+            }
+        }
+    }
+
+    public bool IsGameOver()
+    {
+        return Result != null;
     }
     
     #region Unity Events

@@ -21,19 +21,20 @@ public abstract class Move //: MonoBehaviour
      *
      * TODO : check
      */
-    /*public virtual bool IsLegal(Board board)
+    public virtual bool IsLegal(Board board)
     {
-        Game game = GameObject.FindObjectOfType<Game>();
+        /*Game game = GameObject.FindObjectOfType<Game>();
         Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
 
         Board boardCopy = board.Copy();
         game.Board = boardCopy;
         Execute(boardCopy);
         bool isLegal = !boardCopy.IsInCheck(player);
-        
+
         game.Board = board;
         GameObject.Destroy(boardCopy);
-        
-        return isLegal;
-    }*/
+
+        return isLegal;*/
+        return false;
+    }
 }
