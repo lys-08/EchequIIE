@@ -43,16 +43,16 @@ public class Board : MonoBehaviour
             for (int j = 0; j < 8; j++)
             {
                 var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
-                piece1.transform.position = new Vector3(i * 1.25f, 0, j * 1.25f);
+                piece1.transform.position = new Vector3(j * 1.25f, 0, i * 1.25f);
                 piece1.transform.localScale = Vector3.one;
                 pieces[i, j] = piece1;
             }
         }
-        Debug.Log(pieces[0,0].transform.position);
+        Debug.Log(pieces[0,1].transform.position);
         
         // Adding the pieces
         AddStartingPieces();
-        Debug.Log(pieces[0,0].transform.position);
+        Debug.Log(pieces[0,1].transform.position);
         
         // Return the board initialized
         return this;
@@ -65,84 +65,84 @@ public class Board : MonoBehaviour
     private void AddStartingPieces()
     {
         // BLACK PIECES
-        var obj = Instantiate(blackPieces[0], this[0,0].transform);
+        var obj = Instantiate(blackPieces[0], this[7,0].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Rook>();
         obj.GetComponent<Rook>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[0], this[0,7].transform);
+        obj = Instantiate(blackPieces[0], this[7,7].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Rook>();
         obj.GetComponent<Rook>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[1], this[0,1].transform);
+        obj = Instantiate(blackPieces[1], this[7,1].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Knight>();
         obj.GetComponent<Knight>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[1], this[0,6].transform);
+        obj = Instantiate(blackPieces[1], this[7,6].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Knight>();
         obj.GetComponent<Knight>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[1], this[0,2].transform);
+        obj = Instantiate(blackPieces[2], this[7,2].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Bishop>();
         obj.GetComponent<Bishop>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[1], this[0,5].transform);
+        obj = Instantiate(blackPieces[2], this[7,5].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Bishop>();
         obj.GetComponent<Bishop>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[1], this[0,3].transform);
+        obj = Instantiate(blackPieces[3], this[7,3].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Queen>();
         obj.GetComponent<Queen>().Color = Player.Black;
         
-        obj = Instantiate(blackPieces[1], this[0,4].transform);
+        obj = Instantiate(blackPieces[4], this[7,4].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<King>();
         obj.GetComponent<King>().Color = Player.Black;
         
         
         // White PIECES
-        obj = Instantiate(whitePieces[0], this[7,0].transform);
+        obj = Instantiate(whitePieces[0], this[0,0].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Rook>();
         obj.GetComponent<Rook>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[0], this[7,7].transform);
+        obj = Instantiate(whitePieces[0], this[0,7].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Rook>();
         obj.GetComponent<Rook>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[1], this[7,1].transform);
+        obj = Instantiate(whitePieces[1], this[0,1].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Knight>();
         obj.GetComponent<Knight>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[1], this[7,6].transform);
+        obj = Instantiate(whitePieces[1], this[0,6].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Knight>();
         obj.GetComponent<Knight>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[1], this[7,2].transform);
+        obj = Instantiate(whitePieces[2], this[0,2].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Bishop>();
         obj.GetComponent<Bishop>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[1], this[7,5].transform);
+        obj = Instantiate(whitePieces[2], this[0,5].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Bishop>();
         obj.GetComponent<Bishop>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[1], this[7,3].transform);
+        obj = Instantiate(whitePieces[3], this[0,3].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<Queen>();
         obj.GetComponent<Queen>().Color = Player.White;
         
-        obj = Instantiate(whitePieces[1], this[7,4].transform);
+        obj = Instantiate(whitePieces[4], this[0,4].transform);
         obj.transform.localScale = Vector3.one;
         obj.AddComponent<King>();
         obj.GetComponent<King>().Color = Player.White;
@@ -150,12 +150,12 @@ public class Board : MonoBehaviour
 
         for (int i = 0; i < 8; i++)
         {
-            obj = Instantiate(blackPieces[5], this[1,i].transform);
+            obj = Instantiate(blackPieces[5], this[6,i].transform);
             obj.transform.localScale = Vector3.one;
             obj.AddComponent<Pawn>();
             obj.GetComponent<Pawn>().Color = Player.Black;
             
-            obj = Instantiate(whitePieces[5], this[6,i].transform);
+            obj = Instantiate(whitePieces[5], this[1,i].transform);
             obj.transform.localScale = Vector3.one;
             obj.AddComponent<Pawn>();
             obj.GetComponent<Pawn>().Color = Player.White;

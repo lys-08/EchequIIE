@@ -56,7 +56,7 @@ public class Game : MonoBehaviour
         // Initialisation of the board
         Board = Board.GetComponentInChildren<Board>();
         Board = Board.InitBoard();
-        Debug.Log(Board[0,0].transform.position);
+        Debug.Log(Board[0,1].transform.position);
     }
 
     private void Start()
