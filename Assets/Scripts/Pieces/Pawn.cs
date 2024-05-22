@@ -50,7 +50,7 @@ public class Pawn : Piece
         if (!Board.IsInside(pos) || board.IsEmpty(pos)) return false;
         
         // 2
-        return board[pos].GetComponent<Piece>().Color != Color;
+        return board[pos].GetComponentInChildren<Piece>().Color != Color;
     }
 
     /**

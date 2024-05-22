@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public enum Player 
 {
-    None,
     White, 
     Black
 }
@@ -20,6 +19,9 @@ public class Game : MonoBehaviour
     // STATE
     private StateMachine stateMachine_;
     public StateMachine GamestateMachine => stateMachine_;
+
+    private Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
+    public Position selectedPos = null;
     
 
     /**
@@ -29,12 +31,13 @@ public class Game : MonoBehaviour
     public IEnumerable<Move> LegalMovesForPiece(Position pos)
     {
         // We check if there is a piece of the player color at the given position
-        if (Board.IsEmpty(pos) || Board[pos].GetComponent<Piece>().Color != CurrentPlayer)
+        if (Board.IsEmpty(pos) || Board[pos].GetComponentInChildren<Piece>().Color != CurrentPlayer)
         {
+            Debug.Log("jkezbdciukhekd");
             return Enumerable.Empty<Move>();
         }
 
-        Piece piece = Board[pos].GetComponent<Piece>();
+        Piece piece = Board[pos].GetComponentInChildren<Piece>();
         return piece.GetMoves(pos, Board);
     }
 
@@ -44,8 +47,87 @@ public class Game : MonoBehaviour
     public void MakeMove(Move move)
     {
         move.Execute(Board);
+        if (CurrentPlayer == Player.Black)
+        {
+            stateMachine_.TransitionTo(stateMachine_.whiteState);
+        }
+        else
+        {
+            stateMachine_.TransitionTo(stateMachine_.blackState);
+        }
     }
 
+    /**
+     * Takes the collection of legal moves for the selected piece and stores them
+     */
+    public void CacheMoves(IEnumerable<Move> moves)
+    {
+        // We clear the cache
+        moveCache.Clear();
+
+        /*
+         * For each moves, we store them in the dictionary
+         * -> the key is toPos
+         */
+        foreach (Move move in moves)
+        {
+            Debug.Log("alors ???");
+            moveCache[move.ToPos] = move;
+        }
+    }
+
+    /**
+     * Show the highlights of the possible moves in the cache
+     */
+    public void ShowHighlights()
+    {
+        Debug.Log("pas de pos");
+        foreach (Position toPos in moveCache.Keys)
+        {
+            Debug.Log($"tests : {Board[toPos].GetComponentInChildren<SpriteRenderer>()}");
+            Board[toPos].GetComponentInChildren<SpriteRenderer>().enabled = true;
+        }
+    }
+    
+    /**
+     * Hide the highlights of the possible moves in the cache
+     */
+    public void HideHighlights()
+    {
+        foreach (Position toPos in moveCache.Keys)
+        {
+            Board[toPos].GetComponentInChildren<SpriteRenderer>().enabled = false;
+        }
+    }
+
+    /**
+     * Methods called when a case is clicked and there is a selected piece
+     * -> pos : position of the case clicked
+     */
+    public void OnFromPositionSelected(Position pos)
+    {
+        // We get all moves possible for a piece at the given position (if the piece has the good color)
+        List<Move> moves = LegalMovesForPiece(pos).ToList();
+        
+        // If there is no
+        if (moves.Any()) selectedPos = pos;
+        CacheMoves(moves);
+        ShowHighlights();
+    }
+
+    /**
+     * Called to move a piece : a piece is already selected and the newt click will call the move
+     */
+    public void OnToPositionSelected(Position pos)
+    {
+        selectedPos = null;
+        HideHighlights();
+
+        if (moveCache.TryGetValue(pos, out Move move))
+        {
+            MakeMove(move);
+        }
+    }
     
     #region Unity Events
 
@@ -56,7 +138,6 @@ public class Game : MonoBehaviour
         // Initialisation of the board
         Board = Board.GetComponentInChildren<Board>();
         Board = Board.InitBoard();
-        Debug.Log(Board[0,1].transform.position);
     }
 
     private void Start()

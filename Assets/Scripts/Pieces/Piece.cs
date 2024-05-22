@@ -36,7 +36,7 @@ public abstract class Piece : MonoBehaviour
                 continue;
             }
 
-            Piece piece = board[pos].GetComponent<Piece>();
+            Piece piece = board[pos].GetComponentInChildren<Piece>();
             if (piece.Color != Color) yield return pos;
             
             yield break;

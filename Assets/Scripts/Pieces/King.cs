@@ -42,7 +42,7 @@ public class King : Piece
         {
             Position toPos = pos + dir;
             if (Board.IsInside(toPos)) continue; // The position is inside the board
-            if (board.IsEmpty(toPos) || board[toPos].GetComponent<Piece>().Color != Color) yield return toPos; // there is no piece or there is an opponent piece
+            if (board.IsEmpty(toPos) || board[toPos].GetComponentInChildren<Piece>().Color != Color) yield return toPos; // there is no piece or there is an opponent piece
         }
     }
 
