@@ -9,8 +9,8 @@ public class Direction //: MonoBehaviour
     /**
      * Predefines Directions
      */
-    public static Direction North = new Direction(-1, 0); // The (0,0) is the square at the top left corner
-    public static Direction South = new Direction(1, 0);
+    public static Direction North = new Direction(1, 0); // The (0,0) is the square at the top left corner
+    public static Direction South = new Direction(-1, 0);
     public static Direction East = new Direction(0, 1);
     public static Direction West = new Direction(0, -1);
     public static Direction NorthEast = North + East;

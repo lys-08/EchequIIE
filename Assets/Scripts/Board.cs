@@ -36,7 +36,6 @@ public class Board : MonoBehaviour
      */
     public Board InitBoard()
     {
-        Debug.Log("Blank cases");
         // Instantiation of blank cases
         for (int i = 0; i < 8; i++)
         {
@@ -44,15 +43,15 @@ public class Board : MonoBehaviour
             {
                 var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
                 piece1.transform.localScale = Vector3.one;
+                piece1.name = "Row : " + i + ", Col : " + j; // TODO : remove
                 piece1.transform.position = new Vector3(j * 1.25f * 0.02f, 0.05f * 0.02f, i * 1.25f * 0.02f);
+                piece1.GetComponent<ExampleTouch>().SetPosition(i, j);
                 pieces[i, j] = piece1;
             }
         }
-        Debug.Log(pieces[0,1].transform.position);
         
         // Adding the pieces
         AddStartingPieces();
-        Debug.Log(pieces[0,1].transform.position);
         
         // Return the board initialized
         return this;
@@ -175,6 +174,7 @@ public class Board : MonoBehaviour
      */
     public bool IsEmpty(Position pos)
     {
-        return !this[pos].TryGetComponent<Piece>(out var piece);
+        Piece piece = this[pos].GetComponentInChildren<Piece>();
+        return piece == null;
     }
 }

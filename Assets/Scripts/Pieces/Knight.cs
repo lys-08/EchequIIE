@@ -45,7 +45,7 @@ public class Knight : Piece
     private IEnumerable<Position> MovePositions(Position pos, Board board)
     {
         return PotentialPositions(pos).Where(pos => Board.IsInside(pos)
-                                                    && (board.IsEmpty(pos) || board[pos].GetComponent<Piece>().Color != Color));
+                                                    && (board.IsEmpty(pos) || board[pos].GetComponentInChildren<Piece>().Color != Color));
     }
 
     /**
