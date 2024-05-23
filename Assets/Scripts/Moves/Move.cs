@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 public abstract class Move //: MonoBehaviour
