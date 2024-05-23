@@ -79,7 +79,7 @@ public class Pawn : Piece
             Position twoMovePos = onMovePos + forward;
             if (!HasMoved && CanMoveTo(twoMovePos, board)) // 2
             {
-                yield return new NormalMove(pos, twoMovePos);
+                yield return new DoublePawnMove(pos, twoMovePos);
             }
         }
     }
@@ -95,7 +95,13 @@ public class Pawn : Piece
         foreach (Direction dirs in new Direction[] { Direction.West, Direction.East })
         {
             Position toPos = pos + forward + dirs;
-            if (CanCaptureAt(toPos, board))
+
+            if (pos == board.GetPawnSkipPosition(Color == Player.Black ? Player.White : Player.Black))
+            {
+                yield return new EnPassantMove(pos, toPos);
+            }
+            
+            else if (CanCaptureAt(toPos, board))
             {
                 if (toPos.Row == 0 || toPos.Row == 7)
                 {

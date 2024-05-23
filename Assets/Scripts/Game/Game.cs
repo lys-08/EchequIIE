@@ -52,6 +52,7 @@ public class Game : MonoBehaviour
      */
     public void MakeMove(Move move)
     {
+        Board.SetPawnSkipPosition(CurrentPlayer, null);
         move.Execute(Board);
         CheckForGameOver();
         

@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class DoublePawnMove : MonoBehaviour
+public class DoublePawnMove : Move
 {
-    // Start is called before the first frame update
-    void Start()
+    public override MoveType Type => MoveType.DoublePawn;
+    public override Position FromPos { get; }
+    public override Position ToPos { get; }
+    private Position skippedPosition;
+
+    public DoublePawnMove(Position fromPos, Position toPos)
     {
-        
+        FromPos = fromPos;
+        ToPos = toPos;
+        skippedPosition = new Position((fromPos.Row + toPos.Row) / 2, fromPos.Column);
     }
 
-    // Update is called once per frame
-    void Update()
+    /**
+     * Execute itself on the board
+     * -> like the command pattern
+     */
+    public override void Execute(Board board)
     {
-        
+        Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
+        board.SetPawnSkipPosition(player, skippedPosition);
+        new NormalMove(FromPos, ToPos).Execute(board);
     }
 }
