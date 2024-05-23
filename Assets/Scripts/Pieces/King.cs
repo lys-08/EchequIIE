@@ -27,6 +27,55 @@ public class King : Piece
         Color = color;
     }
 
+    /**
+     * Returns true if the rook is unmoved
+     */
+    private bool IsUnmovedRook(Position pos, Board board)
+    {
+        // If there is no pieces than the rook has moved
+        if (board.IsEmpty(pos)) return false;
+
+        // Otherwise we check if the piece is the rook and if it have move or not
+        Piece piece = board[pos].GetComponentInChildren<Piece>();
+        return piece.Type == PieceType.Rook && !piece.HasMoved;
+    }
+
+    /**
+     * Returns true if all the positions between the king and the rook are empty
+     */
+    private bool AllEmptyForCastle(IEnumerable<Position> positions, Board board)
+    {
+        return positions.All(pos => board.IsEmpty(pos));
+    }
+
+    /**
+     * Return true if all condition to do a Castle on the King Side are valid
+     */
+    private bool CanCastleKS(Position fromPos, Board board)
+    {
+        // If the king has moved then the castle cannot happened
+        if (HasMoved) return false;
+
+        Position rookPos = new Position(fromPos.Row, 7);
+        Position[] betweenPos = new Position[] { new(fromPos.Row, 5), new(fromPos.Row, 6) };
+
+        return IsUnmovedRook(rookPos, board) && AllEmptyForCastle(betweenPos, board);
+    }
+    
+    /**
+     * Return true if all condition to do a Castle on the Queen Side are valid
+     */
+    private bool CanCastleQS(Position fromPos, Board board)
+    {
+        // If the king has moved then the castle cannot happened
+        if (HasMoved) return false;
+
+        Position rookPos = new Position(fromPos.Row, 0);
+        Position[] betweenPos = new Position[] { new(fromPos.Row, 1), new(fromPos.Row, 2), new(fromPos.Row, 3) };
+
+        return IsUnmovedRook(rookPos, board) && AllEmptyForCastle(betweenPos, board);
+    }
+
     public override Piece Copy()
     {
         King copy = new King(Color);
@@ -56,6 +105,12 @@ public class King : Piece
         {
             yield return new NormalMove(pos, toPos);
         }
+
+        if (CanCastleKS(pos, board))
+        {
+            yield return new CastleMove(MoveType.CastleKS, pos);
+        }
+        if (CanCastleQS(pos, board)) yield return new CastleMove(MoveType.CastleQS, pos);
     }
     
     /**
@@ -69,4 +124,6 @@ public class King : Piece
             return piece != null && piece.Type == PieceType.King;
         });
     }
+    
+    
 }

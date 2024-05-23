@@ -16,6 +16,10 @@ public class NormalMove : Move
         ToPos = toPos;
     }
 
+    /**
+     * Execute itself on the board
+     * -> like the command pattern
+     */
     public override void Execute(Board board)
     {
         GameObject.Destroy(board[ToPos].GetComponentInChildren<Piece>().GameObject());

@@ -61,6 +61,10 @@ public class PawnPromotionMove : Move
         return obj;
     }
 
+    /**
+     * Execute itself on the board
+     * -> like the command pattern
+     */
     public override void Execute(Board board)
     {
         Piece pawn = board[FromPos].GetComponentInChildren<Piece>();

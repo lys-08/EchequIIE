@@ -29,6 +29,6 @@ public class Result
 
     public static Result Draw(EndReason reason)
     {
-        return new Result(Player.None, EndReason.Checkmate);
+        return new Result(Player.None, EndReason.Stalemate);
     }
 }
