@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class King : Piece
@@ -55,5 +56,17 @@ public class King : Piece
         {
             yield return new NormalMove(pos, toPos);
         }
+    }
+    
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public override bool CanCaptureOpponentKing(Position from, Board board)
+    {
+        return MovePositions(from, board).Any(toPos =>
+        {
+            Piece piece = board[toPos].GetComponentInChildren<Piece>();
+            return piece != null && piece.Type == PieceType.King;
+        });
     }
 }

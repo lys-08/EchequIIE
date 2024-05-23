@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public enum Player 
 {
+    None, // For draw
     White, 
     Black
 }
@@ -22,10 +23,12 @@ public class Game : MonoBehaviour
 
     private Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
     public Position selectedPos = null;
+
+    public Result Result { get; private set; } = null;
     
 
     /**
-     * Returns all the moves that the piece at the given position can make.
+     * Returns all the legal moves that the piece at the given position can make
      * If there is no pieces then return Empty
      */
     public IEnumerable<Move> LegalMovesForPiece(Position pos)
@@ -33,12 +36,13 @@ public class Game : MonoBehaviour
         // We check if there is a piece of the player color at the given position
         if (Board.IsEmpty(pos) || Board[pos].GetComponentInChildren<Piece>().Color != CurrentPlayer)
         {
-            Debug.Log("jkezbdciukhekd");
             return Enumerable.Empty<Move>();
         }
 
         Piece piece = Board[pos].GetComponentInChildren<Piece>();
         return piece.GetMoves(pos, Board);
+        //IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
+        //return moveCandidates.Where(move => move.IsLegal(Board)); // Only the legal move are returned
     }
 
     /**
@@ -47,6 +51,8 @@ public class Game : MonoBehaviour
     public void MakeMove(Move move)
     {
         move.Execute(Board);
+        CheckForGameOver();
+        
         if (CurrentPlayer == Player.Black)
         {
             stateMachine_.TransitionTo(stateMachine_.whiteState);
@@ -64,6 +70,7 @@ public class Game : MonoBehaviour
     {
         // We clear the cache
         moveCache.Clear();
+        HideHighlights();
 
         /*
          * For each moves, we store them in the dictionary
@@ -81,10 +88,8 @@ public class Game : MonoBehaviour
      */
     public void ShowHighlights()
     {
-        Debug.Log("pas de pos");
         foreach (Position toPos in moveCache.Keys)
         {
-            Debug.Log($"tests : {Board[toPos].GetComponentInChildren<SpriteRenderer>()}");
             Board[toPos].GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
     }
@@ -126,7 +131,46 @@ public class Game : MonoBehaviour
         if (moveCache.TryGetValue(pos, out Move move))
         {
             MakeMove(move);
+            moveCache.Clear();
         }
+    }
+
+    /**
+     * Returns all moves the player can make
+     */
+    public IEnumerable<Move> AllLegalMovesFor(Player player)
+    {
+        IEnumerable<Move> moveCandidates = Board.PiecePositionsFor(player).SelectMany(pos =>
+        {
+            Piece piece = Board[pos].GetComponentInChildren<Piece>();
+            return piece.GetMoves(pos, Board);
+        });
+
+        return moveCandidates; //.Where(move => move.IsLegal(Board));
+    }
+
+    /**
+     *
+     */
+    private void CheckForGameOver()
+    {
+        if (!AllLegalMovesFor(CurrentPlayer).Any())
+        {
+            if (Board.IsInCheck(CurrentPlayer))
+            {
+                if (CurrentPlayer == Player.Black) Result = Result.Win(Player.White);
+                else Result = Result.Win(Player.Black);
+            }
+            else
+            {
+                Result = Result.Draw(EndReason.Stalemate);
+            }
+        }
+    }
+
+    public bool IsGameOver()
+    {
+        return Result != null;
     }
     
     #region Unity Events

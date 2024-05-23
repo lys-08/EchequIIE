@@ -54,6 +54,17 @@ public class Pawn : Piece
     }
 
     /**
+     * Returns all promotion possible
+     */
+    private IEnumerable<Move> PromotionMoves(Position fromPos, Position toPos)
+    {
+        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Knight);
+        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Bishop);
+        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Queen);
+        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Rook);
+    }
+
+    /**
      * Returns the possible moves that the pawn can make
      */
     private IEnumerable<Move> ForwardMoves(Position pos, Board board)
@@ -66,7 +77,17 @@ public class Pawn : Piece
         Position onMovePos = pos + forward;
         if (CanMoveTo(onMovePos, board)) // 1
         {
-            yield return new NormalMove(pos, onMovePos);
+            if (onMovePos.Row == 0 || onMovePos.Row == 7)
+            {
+                foreach (Move promMove in PromotionMoves(pos, onMovePos))
+                {
+                    yield return promMove;
+                }
+            }
+            else
+            {
+                yield return new NormalMove(pos, onMovePos);
+            }
 
             Position twoMovePos = onMovePos + forward;
             if (!HasMoved && CanMoveTo(onMovePos, board)) // 2
@@ -87,7 +108,20 @@ public class Pawn : Piece
         foreach (Direction dirs in new Direction[] { Direction.West, Direction.East })
         {
             Position toPos = pos + forward + dirs;
-            if (CanCaptureAt(toPos, board)) yield return new NormalMove(pos, toPos);
+            if (CanCaptureAt(toPos, board))
+            {
+                if (toPos.Row == 0 || toPos.Row == 7)
+                {
+                    foreach (Move promMove in PromotionMoves(pos, toPos))
+                    {
+                        yield return promMove;
+                    }
+                }
+                else
+                {
+                    yield return new NormalMove(pos, toPos);
+                }
+            }
         }
     }
     
@@ -97,5 +131,17 @@ public class Pawn : Piece
     public override IEnumerable<Move> GetMoves(Position pos, Board board)
     {
         return ForwardMoves(pos, board).Concat(DiagonalMoves(pos, board));
+    }
+    
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public override bool CanCaptureOpponentKing(Position from, Board board)
+    {
+        return DiagonalMoves(from, board).Any(move =>
+        {
+            Piece piece = board[move.ToPos].GetComponentInChildren<Piece>();
+            return piece != null && piece.Type == PieceType.King;
+        });
     }
 }

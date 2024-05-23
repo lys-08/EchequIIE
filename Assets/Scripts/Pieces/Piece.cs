@@ -50,4 +50,16 @@ public abstract class Piece : MonoBehaviour
     {
         return directions.SelectMany(dir => MovePositionsDir(fromPos, board, dir));
     }
+
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public virtual bool CanCaptureOpponentKing(Position from, Board board)
+    {
+        return GetMoves(from, board).Any(move =>
+        {
+            Piece piece = board[move.ToPos].GetComponentInChildren<Piece>();
+            return piece != null && piece.Type == PieceType.King;
+        });
+    }
 }
