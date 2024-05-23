@@ -27,6 +27,9 @@ public class NormalMove : Move
         GameObject piece = board[FromPos].GetComponentInChildren<Piece>().gameObject;
         board[FromPos].GetComponentInChildren<Piece>().HasMoved = true;
         piece.transform.parent = board[ToPos].transform;
-        piece.transform.position = 0.02f * new Vector3(1.25f * ToPos.Column, 0.05f, 1.25f * ToPos.Row);
+        piece.transform.localScale = Vector3.one;
+        piece.transform.position = board[ToPos].transform.position;//Vector3.zero;//0.02f * new Vector3(1.25f * ToPos.Column, 0.05f, 1.25f * ToPos.Row);
+        Debug.Log(piece.transform.position);
+        Debug.Log(piece.transform.parent.gameObject);
     }
 }
