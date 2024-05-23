@@ -20,15 +20,14 @@ public class PawnPromotionMove : Move
     }
 
     /**
-     *
+     * Create the promotion piece chosen
      */
     private GameObject CreatePromotionPiece(Player color, Transform parent)
     {
         Board board = GameObject.FindObjectOfType<Board>();
         List<GameObject> pieces;
 
-        if (color == Player.Black) pieces = board.blackPieces;
-        else pieces = board.whitePieces;
+        pieces = color == Player.Black ? board.blackPieces : board.whitePieces;
         
         GameObject obj = null;
         switch (newType)

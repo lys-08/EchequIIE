@@ -25,6 +25,8 @@ public class Game : MonoBehaviour
     public Position selectedPos = null;
 
     public Result Result { get; private set; } = null;
+
+    [SerializeField] public GameObject promotionMenu;
     
 
     /**
@@ -42,7 +44,7 @@ public class Game : MonoBehaviour
         Piece piece = Board[pos].GetComponentInChildren<Piece>();
         return piece.GetMoves(pos, Board);
         //IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
-        //return moveCandidates.Where(move => move.IsLegal(Board)); // Only the legal move are returned
+        //return moveCandidates.Where(move => move.IsLegal(Board)); // TODO Only the legal move are returned
     }
 
     /**
@@ -78,7 +80,6 @@ public class Game : MonoBehaviour
          */
         foreach (Move move in moves)
         {
-            Debug.Log("alors ???");
             moveCache[move.ToPos] = move;
         }
     }
@@ -130,9 +131,35 @@ public class Game : MonoBehaviour
 
         if (moveCache.TryGetValue(pos, out Move move))
         {
-            MakeMove(move);
+            if (move.Type == MoveType.PawnPromotion)
+            {
+                StartCoroutine(HandlePromotion(move.FromPos, move.ToPos));
+            }
+            else
+            {
+                MakeMove(move);
+            }
             moveCache.Clear();
         }
+    }
+
+    /**
+     * Handle the pawn promotion
+     */
+    public IEnumerator HandlePromotion(Position fromPos, Position toPos)
+    {
+        promotionMenu.SetActive(true);
+        PromotionMenu promotionScript = promotionMenu.GetComponent<PromotionMenu>();
+        
+        while (!promotionScript.hasChoose)
+        {
+            yield return null;
+        }
+        
+        Move promMove = new PawnPromotionMove(fromPos, toPos, promotionScript.newPiece);
+        promotionScript.hasChoose = false;
+        promotionMenu.SetActive(false);
+        MakeMove(promMove);
     }
 
     /**
@@ -146,11 +173,11 @@ public class Game : MonoBehaviour
             return piece.GetMoves(pos, Board);
         });
 
-        return moveCandidates; //.Where(move => move.IsLegal(Board));
+        return moveCandidates;//.Where(move => move.IsLegal(Board));// TODO : check detection
     }
 
     /**
-     *
+     * Check if there is game over
      */
     private void CheckForGameOver()
     {

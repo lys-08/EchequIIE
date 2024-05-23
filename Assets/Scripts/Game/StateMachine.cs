@@ -10,8 +10,8 @@ public class StateMachine : MonoBehaviour
     public IState CurrentState { get; private set; }
    
     // reference to state objects
-    [field: SerializeField] public WhiteState whiteState;
-    [field: SerializeField] public BlackState blackState;
+    public WhiteState whiteState;
+    public BlackState blackState;
    
     // event to notify other objects of the state change
     private UnityEvent<IState> stateChanged;

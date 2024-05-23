@@ -23,7 +23,7 @@ public abstract class Move //: MonoBehaviour
      */
     public virtual bool IsLegal(Board board)
     {
-        /*Game game = GameObject.FindObjectOfType<Game>();
+        Game game = GameObject.FindObjectOfType<Game>();
         Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
 
         Board boardCopy = board.Copy();
@@ -34,7 +34,6 @@ public abstract class Move //: MonoBehaviour
         game.Board = board;
         GameObject.Destroy(boardCopy);
 
-        return isLegal;*/
-        return false;
+        return isLegal;
     }
 }

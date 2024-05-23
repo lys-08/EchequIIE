@@ -54,17 +54,6 @@ public class Pawn : Piece
     }
 
     /**
-     * Returns all promotion possible
-     */
-    private IEnumerable<Move> PromotionMoves(Position fromPos, Position toPos)
-    {
-        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Knight);
-        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Bishop);
-        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Queen);
-        yield return new PawnPromotionMove(fromPos, toPos, PieceType.Rook);
-    }
-
-    /**
      * Returns the possible moves that the pawn can make
      */
     private IEnumerable<Move> ForwardMoves(Position pos, Board board)
@@ -79,10 +68,8 @@ public class Pawn : Piece
         {
             if (onMovePos.Row == 0 || onMovePos.Row == 7)
             {
-                foreach (Move promMove in PromotionMoves(pos, onMovePos))
-                {
-                    yield return promMove;
-                }
+                Debug.Log("On est dans la condition");
+                yield return new PawnPromotionMove(pos, onMovePos, PieceType.Pawn);
             }
             else
             {
@@ -90,7 +77,7 @@ public class Pawn : Piece
             }
 
             Position twoMovePos = onMovePos + forward;
-            if (!HasMoved && CanMoveTo(onMovePos, board)) // 2
+            if (!HasMoved && CanMoveTo(twoMovePos, board)) // 2
             {
                 yield return new NormalMove(pos, twoMovePos);
             }
@@ -112,10 +99,7 @@ public class Pawn : Piece
             {
                 if (toPos.Row == 0 || toPos.Row == 7)
                 {
-                    foreach (Move promMove in PromotionMoves(pos, toPos))
-                    {
-                        yield return promMove;
-                    }
+                    yield return new PawnPromotionMove(pos, toPos, PieceType.Pawn);
                 }
                 else
                 {

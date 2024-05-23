@@ -45,7 +45,6 @@ public class ExampleTouch : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("piece");
                         game.HideHighlights();
                         game.OnFromPositionSelected(pos);
                     }

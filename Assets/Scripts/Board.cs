@@ -29,7 +29,11 @@ public class Board : MonoBehaviour
      */
     public GameObject this[Position pos]
     {
-        get { return pieces[pos.Row, pos.Column]; }
+        get
+        {
+            //Debug.Log($"row :{pos.Row}, col :{pos.Column}");
+            return pieces[pos.Row, pos.Column];
+        }
         set { pieces[pos.Row, pos.Column] = value; }
     }
     
@@ -49,6 +53,7 @@ public class Board : MonoBehaviour
                 piece1.transform.position = new Vector3(j * 1.25f * 0.02f, 0.05f * 0.02f, i * 1.25f * 0.02f);
                 piece1.GetComponent<ExampleTouch>().SetPosition(i, j);
                 pieces[i, j] = piece1;
+                Debug.Log($"INSTANTIATION DU CARRE : row :{i}, col :{j}");
             }
         }
         
@@ -210,8 +215,7 @@ public class Board : MonoBehaviour
     public bool IsInCheck(Player player)
     {
         Player color;
-        if (player == Player.Black) color = Player.White;
-        else color = Player.Black;
+        color = player == Player.Black ? Player.White : Player.Black;
 
         return PiecePositionsFor(color).Any(pos =>
         {

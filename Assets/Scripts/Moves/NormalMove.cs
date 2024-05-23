@@ -21,10 +21,8 @@ public class NormalMove : Move
         GameObject.Destroy(board[ToPos].GetComponentInChildren<Piece>().GameObject());
         
         GameObject piece = board[FromPos].GetComponentInChildren<Piece>().gameObject;
+        board[FromPos].GetComponentInChildren<Piece>().HasMoved = true;
         piece.transform.parent = board[ToPos].transform;
         piece.transform.position = 0.02f * new Vector3(1.25f * ToPos.Column, 0.05f, 1.25f * ToPos.Row);
-        
-        Debug.Log($"3 : {piece.transform.position}");
-        //board[FromPos] = null;
     }
 }
