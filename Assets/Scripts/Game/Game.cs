@@ -194,6 +194,10 @@ public class Game : MonoBehaviour
                 Result = Result.Draw(EndReason.Stalemate);
             }
         }
+        else if (Board.InsufficientMaterial())
+        {
+            Result = global::Result.Draw(EndReason.InsufficientMaterial);
+        }
     }
 
     public bool IsGameOver()

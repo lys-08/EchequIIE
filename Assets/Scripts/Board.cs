@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,15 @@ public class Board : MonoBehaviour
         { Player.White, null },
         { Player.Black, null },
     };
-    
-    
+
+    private Counter counter;
+
+
+    private void Awake()
+    {
+        counter = FindObjectOfType<Counter>();
+    }
+
     /**
      * Return the piece at the row and column given
      */
@@ -245,4 +253,77 @@ public class Board : MonoBehaviour
         Board copy = Instantiate(this);
         return copy;
     }
+
+    /**
+     * Returns a counting of all pieces on the board
+     */
+    public Counter CountPieces()
+    {
+        foreach (Position pos in PiecePositions())
+        {
+            Piece piece = this[pos].GetComponentInChildren<Piece>();
+            counter.Increment(piece.Color, piece.Type);
+        }
+
+        return counter;
+    }
+
+    /**
+     * Returns true if the remaining pieces on the board are insufficient for either player
+     * for ever checkmate the other
+     */
+    public bool InsufficientMaterial()
+    {
+        return IsKingVsKing(counter) || IsKingBishopVsKing(counter) ||
+               IsKingKnightVsKing(counter) || IsKingKBishopVs(counter);
+    }
+
+    /**
+     * Returns true if there is only 2 pieces left (they are the king of each player because otherwise it would be checkmate)
+     */
+    private static bool IsKingVsKing(Counter counter)
+    {
+        return counter.TotalCount == 2;
+    }
+
+    /**
+     * Returns true if there is a king and a bishop versus a king only
+     */
+    private static bool IsKingBishopVsKing(Counter counter)
+    {
+        return counter.TotalCount == 3 &&
+               (counter.White(PieceType.Bishop) == 1 || counter.Black(PieceType.Bishop) == 1);
+    }
+    
+    /**
+     * Returns true if there is a king and a knight versus a king only
+     */
+    private static bool IsKingKnightVsKing(Counter counter)
+    {
+        return counter.TotalCount == 3 &&
+               (counter.White(PieceType.Knight) == 1 || counter.Black(PieceType.Knight) == 1);
+    }
+    
+    /**
+     * Returns true if there is a king and a bishop versus and both bishop are on the same color square
+     */
+    private bool IsKingKBishopVs(Counter counter)
+    {
+        if (counter.TotalCount != 4) return false;
+        if (counter.White(PieceType.Bishop) != 1 || counter.Black(PieceType.Bishop) != 1) return false;
+
+        Position whiteBishop = FindPiece(Player.White, PieceType.Bishop);
+        Position blackBishop = FindPiece(Player.Black, PieceType.Bishop);
+
+        return whiteBishop.SquareColor() == blackBishop.SquareColor();
+    }
+
+    /**
+     * Returns the position of the first instance of a piece with the given color
+     */
+    private Position FindPiece(Player color, PieceType type)
+    {
+        return PiecePositionsFor(color).First(pos => this[pos].GetComponentInChildren<Piece>().Type == type);
+    }
 }
+
