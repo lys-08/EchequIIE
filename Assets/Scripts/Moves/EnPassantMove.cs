@@ -8,7 +8,7 @@ public class EnPassantMove : Move
     public override MoveType Type => MoveType.EnPassant;
     public override Position FromPos { get; }
     public override Position ToPos { get; }
-    private Position capturePos;
+    private Position capturePos; // Position of the captured pawn
 
     public EnPassantMove(Position fromPos, Position toPos)
     {

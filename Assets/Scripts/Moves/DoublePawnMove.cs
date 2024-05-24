@@ -8,7 +8,7 @@ public class DoublePawnMove : Move
     public override MoveType Type => MoveType.DoublePawn;
     public override Position FromPos { get; }
     public override Position ToPos { get; }
-    private Position skippedPosition;
+    private Position skippedPosition; // En Passant square : the case skipped
 
     public DoublePawnMove(Position fromPos, Position toPos)
     {

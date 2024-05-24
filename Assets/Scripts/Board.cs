@@ -13,7 +13,7 @@ public class Board : MonoBehaviour
     
     // The board is an array of pieces
     private GameObject[,] pieces = new GameObject[8,8];
-    // TODO def
+    // We store the position of the pawn that is moved 2 cases forward
     private Dictionary<Player, Position> pawnSkipPositions = new Dictionary<Player, Position>
     {
         { Player.White, null },
@@ -35,11 +35,7 @@ public class Board : MonoBehaviour
      */
     public GameObject this[Position pos]
     {
-        get
-        {
-            //Debug.Log($"row :{pos.Row}, col :{pos.Column}");
-            return pieces[pos.Row, pos.Column];
-        }
+        get {return pieces[pos.Row, pos.Column]; }
         set { pieces[pos.Row, pos.Column] = value; }
     }
     

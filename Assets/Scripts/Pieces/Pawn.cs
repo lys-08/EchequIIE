@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 public class Pawn : Piece
 {
@@ -96,7 +97,7 @@ public class Pawn : Piece
         {
             Position toPos = pos + forward + dirs;
 
-            if (pos == board.GetPawnSkipPosition(Color == Player.Black ? Player.White : Player.Black))
+            if (toPos == board.GetPawnSkipPosition((Color == Player.Black) ? Player.White : Player.Black))
             {
                 yield return new EnPassantMove(pos, toPos);
             }
