@@ -42,9 +42,9 @@ public class Game : MonoBehaviour
         }
 
         Piece piece = Board[pos].GetComponentInChildren<Piece>();
-        return piece.GetMoves(pos, Board);
-        //IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
-        //return moveCandidates.Where(move => move.IsLegal(Board)); // TODO Only the legal move are returned
+        return piece.GetMoves(pos, Board);// TODO OO
+        IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
+        return moveCandidates.Where(move => move.IsLegal(Board)); // TODO Only the legal move are returned
     }
 
     /**

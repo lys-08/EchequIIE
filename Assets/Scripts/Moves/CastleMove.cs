@@ -50,7 +50,7 @@ public class CastleMove : Move
      *
      * TODO : check
      */
-    public virtual bool IsLegal(Board board)
+    public override bool IsLegal(Board board)
     {
         Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
 

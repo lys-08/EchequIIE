@@ -66,7 +66,8 @@ public class Board : MonoBehaviour
                 var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
                 piece1.transform.localScale = Vector3.one;
                 piece1.name = "Row : " + i + ", Col : " + j; // TODO : remove
-                piece1.transform.position = new Vector3(-0.09f + j * 1.25f * 0.02f, 0.05f * 0.02f, -0.09f + i * 1.25f * 0.02f);
+                //piece1.transform.position = new Vector3(-0.09f + j * 1.25f * 0.02f, 0.05f * 0.02f, -0.09f + i * 1.25f * 0.02f);
+                piece1.transform.localPosition = new Vector3(j * 1.25f, 0.01f,  i * 1.25f);
                 piece1.GetComponent<ExampleTouch>().SetPosition(i, j);
                 pieces[i, j] = piece1;
                 Debug.Log($"INSTANTIATION DU CARRE : row :{i}, col :{j}");
