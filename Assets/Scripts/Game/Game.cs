@@ -16,6 +16,7 @@ public class Game : MonoBehaviour
 { 
     [field: SerializeField] public Board Board { get; set; }
     [SerializeField] public GameObject promotionMenu;
+    [SerializeField] public GameObject gameOverMenu;
     
     public Player CurrentPlayer { get; set; }
     
@@ -195,19 +196,25 @@ public class Game : MonoBehaviour
             {
                 if (CurrentPlayer == Player.Black) Result = Result.Win(Player.White);
                 else Result = Result.Win(Player.Black);
+                
+                stateMachine_.TransitionTo(stateMachine_.gameOverState);
             }
             else
             {
                 Result = Result.Draw(EndReason.Stalemate);
+                CurrentPlayer = Player.None;
+                stateMachine_.TransitionTo(stateMachine_.gameOverState);
             }
         }
         else if (Board.InsufficientMaterial())
         {
             Result = Result.Draw(EndReason.InsufficientMaterial);
+            stateMachine_.TransitionTo(stateMachine_.gameOverState);
         }
         else if (FiftyMoveRule())
         {
             Result = Result.Draw(EndReason.FiftyMoveRule);
+            stateMachine_.TransitionTo(stateMachine_.gameOverState);
         }
     }
 

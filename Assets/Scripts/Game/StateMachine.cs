@@ -12,6 +12,7 @@ public class StateMachine : MonoBehaviour
     // reference to state objects
     public WhiteState whiteState;
     public BlackState blackState;
+    public GameOverState gameOverState;
    
     // event to notify other objects of the state change
     private UnityEvent<IState> stateChanged;
@@ -26,6 +27,7 @@ public class StateMachine : MonoBehaviour
         // create an instance for each state
         this.whiteState = new WhiteState(game);
         this.blackState = new BlackState(game);
+        this.gameOverState = new GameOverState(game);
     }
     
     /**

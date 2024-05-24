@@ -471,10 +471,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 419952677089030228, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419952677089030228, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419952677089030228, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419952677089030228, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1381349481624685785, guid: b11484428743ba84b960ddd0ad00e0d6,
         type: 3}
       propertyPath: m_Name
       value: '[UI Canvas]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124904716794545273, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124904716794545273, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124904716794545273, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124904716794545273, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5377847874960453845, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5377847874960453845, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5377847874960453845, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5377847874960453845, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6379268723925695812, guid: b11484428743ba84b960ddd0ad00e0d6,
         type: 3}
@@ -576,11 +636,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7481252370117828977, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7481252370117828977, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7481252370117828977, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7481252370117828977, guid: b11484428743ba84b960ddd0ad00e0d6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b11484428743ba84b960ddd0ad00e0d6, type: 3}
+--- !u!1 &3638938892066135889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5527870101057140304, guid: b11484428743ba84b960ddd0ad00e0d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3638938892066135888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7850507488599503066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,6 +725,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5314267833648913887, guid: 4e670171dca617843bcc34b23830cc84,
+        type: 3}
+      propertyPath: gameOverMenu
+      value: 
+      objectReference: {fileID: 3638938892066135889}
     - target: {fileID: 5314267833648913887, guid: 4e670171dca617843bcc34b23830cc84,
         type: 3}
       propertyPath: promotionMenu
