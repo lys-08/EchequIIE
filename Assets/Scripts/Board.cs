@@ -325,5 +325,82 @@ public class Board : MonoBehaviour
     {
         return PiecePositionsFor(color).First(pos => this[pos].GetComponentInChildren<Piece>().Type == type);
     }
+
+    /**
+     * Returns true is the positions contained an unmoved king and unmoved rook
+     */
+    private bool IsUnmovedKingAndRook(Position kingPos, Position rookPos)
+    {
+        if (IsEmpty(kingPos) || IsEmpty(rookPos)) return false;
+
+        Piece king = this[kingPos].GetComponentInChildren<Piece>();
+        Piece rook = this[rookPos].GetComponentInChildren<Piece>();
+
+        return king.Type == PieceType.King && rook.Type == PieceType.Rook &&
+               !king.HasMoved && !rook.HasMoved;
+    }
+
+    /**
+     * Returns true if the given player has the right to castle king side
+     */
+    public bool CastleRightKS(Player player)
+    {
+        return player switch
+        {
+            Player.White => IsUnmovedKingAndRook(new Position(0, 4), new Position(0, 7)),
+            Player.Black => IsUnmovedKingAndRook(new Position(7, 4), new Position(7, 7)),
+            _ => false
+        };
+    }
+    
+    /**
+     * Returns true if the given player has the right to castle queen side
+     */
+    public bool CastleRightQS(Player player)
+    {
+        return player switch
+        {
+            Player.White => IsUnmovedKingAndRook(new Position(0, 4), new Position(0, 0)),
+            Player.Black => IsUnmovedKingAndRook(new Position(7, 4), new Position(7, 0)),
+            _ => false
+        };
+    }
+
+    /**
+     * Returns true if the given player has a pawn that can move to skipPos and capture en passant
+     */
+    private bool HasPawnInPosition(Player player, Position[] pawnPositions, Position skipPos)
+    {
+        foreach (Position pos in pawnPositions.Where(IsInside))
+        {
+            Piece piece = this[pos].GetComponentInChildren<Piece>();
+            if (piece == null || piece.Color != player || piece.Type != PieceType.Pawn) continue;
+
+            EnPassantMove move = new EnPassantMove(pos, skipPos);
+            if (move.IsLegal(this)) return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Returns true if the player can capture en passant in the current state
+     */
+    public bool CanCaptureEnPassant(Player player)
+    {
+        Player opponent = player == Player.White ? Player.Black : Player.White;
+        Position skipPos = GetPawnSkipPosition(opponent);
+
+        if (skipPos == null) return false;
+
+        Position[] pawnPositions = player switch
+        {
+            Player.White => new Position[] { skipPos + Direction.NorthWest, skipPos + Direction.NorthEast },
+            Player.Black => new Position[] { skipPos + Direction.SouthWest, skipPos + Direction.SouthEast },
+            _ => Array.Empty<Position>()
+        };
+
+        return HasPawnInPosition(player, pawnPositions, skipPos);
+    }
 }
 
