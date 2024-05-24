@@ -62,16 +62,17 @@ public class PawnPromotionMove : Move
     }
 
     /**
-     * Execute itself on the board
+     * Execute itself on the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public override void Execute(Board board)
+    public override bool Execute(Board board)
     {
         Piece pawn = board[FromPos].GetComponentInChildren<Piece>();
-        GameObject.Destroy(board[FromPos].GetComponentInChildren<Piece>().GameObject());
+        if (!board.IsEmpty(ToPos)) GameObject.Destroy(board[ToPos].GetComponentInChildren<Piece>().gameObject);
 
         Piece promotionPiece = CreatePromotionPiece(pawn.Color, board[ToPos].transform).GetComponent<Piece>();
         promotionPiece.HasMoved = true;
-        //promotionPiece.transform.position = 0.02f * new Vector3(1.25f * ToPos.Column, 0.05f, 1.25f * ToPos.Row);
+        
+        return true; // always move a pawn
     }
 }

@@ -18,12 +18,14 @@ public class EnPassantMove : Move
     }
 
     /**
-     * Execute itself on the board
+     * Execute itself on the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public override void Execute(Board board)
+    public override bool Execute(Board board)
     {
         new NormalMove(FromPos, ToPos).Execute(board);
         GameObject.Destroy(board[capturePos].GetComponentInChildren<Piece>().gameObject);
+        
+        return true; // always move a pawn
     }
 }

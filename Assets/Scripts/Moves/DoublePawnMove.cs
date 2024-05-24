@@ -18,13 +18,15 @@ public class DoublePawnMove : Move
     }
 
     /**
-     * Execute itself on the board
+     * Execute itself on the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public override void Execute(Board board)
+    public override bool Execute(Board board)
     {
         Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
         board.SetPawnSkipPosition(player, skippedPosition);
         new NormalMove(FromPos, ToPos).Execute(board);
+        
+        return true; // always move a pawn
     }
 }

@@ -17,19 +17,25 @@ public class NormalMove : Move
     }
 
     /**
-     * Execute itself on the board
+     * Execute itself on the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public override void Execute(Board board)
+    public override bool Execute(Board board)
     {
-        GameObject.Destroy(board[ToPos].GetComponentInChildren<Piece>().GameObject());
-        
-        GameObject piece = board[FromPos].GetComponentInChildren<Piece>().gameObject;
-        board[FromPos].GetComponentInChildren<Piece>().HasMoved = true;
-        piece.transform.parent = board[ToPos].transform;
-        piece.transform.localScale = Vector3.one;
-        piece.transform.position = board[ToPos].transform.position;//Vector3.zero;//0.02f * new Vector3(1.25f * ToPos.Column, 0.05f, 1.25f * ToPos.Row);
-        Debug.Log(piece.transform.position);
-        Debug.Log(piece.transform.parent.gameObject);
+        bool capture = false;
+        if (!board.IsEmpty(ToPos))
+        {
+            capture = true;
+            GameObject.Destroy(board[ToPos].GetComponentInChildren<Piece>().gameObject);
+        }
+
+        Piece piece = board[FromPos].GetComponentInChildren<Piece>();
+        GameObject pieceGm = piece.gameObject;
+        piece.HasMoved = true;
+        pieceGm.transform.parent = board[ToPos].transform;
+        pieceGm.transform.localScale = Vector3.one;
+        pieceGm.transform.position = board[ToPos].transform.position;
+
+        return capture || piece.Type == PieceType.Pawn;
     }
 }

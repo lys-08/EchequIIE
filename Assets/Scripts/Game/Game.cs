@@ -15,18 +15,21 @@ public enum Player
 public class Game : MonoBehaviour
 { 
     [field: SerializeField] public Board Board { get; set; }
+    [SerializeField] public GameObject promotionMenu;
+    
     public Player CurrentPlayer { get; set; }
     
-    // STATE
-    private StateMachine stateMachine_;
-    public StateMachine GamestateMachine => stateMachine_;
 
     private Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
     public Position selectedPos = null;
 
     public Result Result { get; private set; } = null;
-
-    [SerializeField] public GameObject promotionMenu;
+    
+    private int noCaptureOrPawnMovesCount = 0; // count the consecutive none capturing and none pawn moves
+    
+    // STATE
+    private StateMachine stateMachine_;
+    public StateMachine GamestateMachine => stateMachine_;
     
 
     /**
@@ -53,7 +56,11 @@ public class Game : MonoBehaviour
     public void MakeMove(Move move)
     {
         Board.SetPawnSkipPosition(CurrentPlayer, null);
-        move.Execute(Board);
+        bool captureOrPawn = move.Execute(Board);
+
+        if (captureOrPawn) noCaptureOrPawnMovesCount = 0;
+        else noCaptureOrPawnMovesCount++;
+        
         CheckForGameOver();
         
         if (CurrentPlayer == Player.Black)
@@ -196,7 +203,11 @@ public class Game : MonoBehaviour
         }
         else if (Board.InsufficientMaterial())
         {
-            Result = global::Result.Draw(EndReason.InsufficientMaterial);
+            Result = Result.Draw(EndReason.InsufficientMaterial);
+        }
+        else if (FiftyMoveRule())
+        {
+            Result = Result.Draw(EndReason.FiftyMoveRule);
         }
     }
 
@@ -204,6 +215,18 @@ public class Game : MonoBehaviour
     {
         return Result != null;
     }
+
+    /**
+     * Returns true if the fifty move rule has been reach : if any capture nor pawn move are
+     * made in 50 full moves than it's a draw
+     */
+    private bool FiftyMoveRule()
+    {
+        int fullMoves = noCaptureOrPawnMovesCount / 2; // One full move is made when each player have made a move
+
+        return fullMoves == 50;
+    }
+    
     
     #region Unity Events
 

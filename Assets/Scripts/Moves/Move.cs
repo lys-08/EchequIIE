@@ -10,10 +10,10 @@ public abstract class Move //: MonoBehaviour
     public abstract Position ToPos { get; } // Position where the piece move to
 
     /**
-     * Execute itself on the board
+     * Execute itself on the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public abstract void Execute(Board board);
+    public abstract bool Execute(Board board);
 
     /**
      * Return true if the move does not leave the current player's king in check
