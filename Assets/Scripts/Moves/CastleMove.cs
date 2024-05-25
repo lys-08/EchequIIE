@@ -43,7 +43,8 @@ public class CastleMove : Move
     {
         new NormalMove(FromPos, ToPos).Execute(board);
         new NormalMove(rookFromPos, rookToPos).Execute(board);
-
+        
+        game.castleSound.Play();
         return false; // never capture a piece nor move a pawn
     }
     

@@ -25,8 +25,13 @@ public class NormalMove : Move
         bool capture = false;
         if (!board.IsEmpty(ToPos))
         {
+            game.captureSound.Play();
             capture = true;
             GameObject.Destroy(board[ToPos].GetComponentInChildren<Piece>().gameObject);
+        }
+        else
+        {
+            game.moveSound.Play();
         }
 
         Piece piece = board[FromPos].GetComponentInChildren<Piece>();

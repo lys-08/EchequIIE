@@ -136,7 +136,6 @@ public class Board : MonoBehaviour
         
         obj = Instantiate(blackPieces[4], this[7,4].transform);
         obj.transform.localScale = Vector3.one;
-        obj.transform.rotation = Quaternion.Euler(0, 90, 0);
         obj.AddComponent<King>();
         obj.GetComponent<King>().Color = Player.Black;
         
@@ -186,7 +185,6 @@ public class Board : MonoBehaviour
         
         obj = Instantiate(whitePieces[4], this[0,4].transform);
         obj.transform.localScale = Vector3.one;
-        obj.transform.rotation = Quaternion.Euler(0, -90, 0);
         obj.AddComponent<King>();
         obj.GetComponent<King>().Color = Player.White;
         

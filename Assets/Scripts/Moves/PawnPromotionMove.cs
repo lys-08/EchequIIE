@@ -57,7 +57,7 @@ public class PawnPromotionMove : Move
                 obj.GetComponent<Rook>().Color = color;
                 break;
         }
-
+        obj.transform.rotation = color == Player.Black ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0);
         return obj;
     }
 
@@ -73,6 +73,9 @@ public class PawnPromotionMove : Move
         Piece promotionPiece = CreatePromotionPiece(pawn.Color, board[ToPos].transform).GetComponent<Piece>();
         promotionPiece.HasMoved = true;
         
+        GameObject.Destroy(board[FromPos].GetComponentInChildren<Piece>().gameObject); //destroy the original pawn
+        
+        game.promoteSound.Play();
         return true; // always move a pawn
     }
 }

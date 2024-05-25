@@ -18,7 +18,11 @@ public class Game : MonoBehaviour
     [SerializeField] public GameObject promotionMenu;
     [SerializeField] public GameObject gameOverMenu;
     
-    [SerializeField] private AudioSource moveSound;
+    [SerializeField] public AudioSource moveSound;
+    [SerializeField] public AudioSource captureSound;
+    [SerializeField] public AudioSource promoteSound;
+    [SerializeField] public AudioSource checkSound;
+    [SerializeField] public AudioSource castleSound;
     
     public Player CurrentPlayer { get; set; }
     
@@ -58,7 +62,6 @@ public class Game : MonoBehaviour
      */
     public void MakeMove(Move move)
     {
-        moveSound.Play();
         Board.SetPawnSkipPosition(CurrentPlayer, null);
         bool captureOrPawn = move.Execute(Board);
 
@@ -257,6 +260,7 @@ public class Game : MonoBehaviour
     private void Update()
     {
         stateMachine_.Update();
+        
     }
     
     #endregion

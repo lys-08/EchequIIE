@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Move //: MonoBehaviour
 {
+    public Game game = GameObject.FindObjectOfType<Game>();
     public abstract MoveType Type { get; }
     public abstract Position FromPos { get; } // Position where the piece move from
     public abstract Position ToPos { get; } // Position where the piece move to
@@ -22,7 +23,6 @@ public abstract class Move //: MonoBehaviour
      */
     public virtual bool IsLegal(Board board)
     {
-        Game game = GameObject.FindObjectOfType<Game>();
         Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
 
         Board boardCopy = board.Copy();
