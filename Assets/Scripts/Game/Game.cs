@@ -18,6 +18,8 @@ public class Game : MonoBehaviour
     [SerializeField] public GameObject promotionMenu;
     [SerializeField] public GameObject gameOverMenu;
     
+    [SerializeField] private AudioSource moveSound;
+    
     public Player CurrentPlayer { get; set; }
     
 
@@ -56,6 +58,7 @@ public class Game : MonoBehaviour
      */
     public void MakeMove(Move move)
     {
+        moveSound.Play();
         Board.SetPawnSkipPosition(CurrentPlayer, null);
         bool captureOrPawn = move.Execute(Board);
 
