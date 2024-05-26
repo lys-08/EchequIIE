@@ -128,7 +128,6 @@ public class Game : MonoBehaviour
     {
         // We get all moves possible for a piece at the given position (if the piece has the good color)
         List<Move> moves = LegalMovesForPiece(pos).ToList();
-        Debug.Log("On FromPos Selected");
         
         // If there is no
         if (moves.Any()) selectedPos = pos;

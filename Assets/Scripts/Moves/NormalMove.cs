@@ -58,6 +58,7 @@ public class NormalMove : Move
         }
 
         board[ToPos.Row, ToPos.Column] = board[FromPos.Row, FromPos.Column];
+        board[FromPos.Row, FromPos.Column] = null;
         return capture || board[ToPos.Row, ToPos.Column].Type == PieceType.Pawn;
     }
 }

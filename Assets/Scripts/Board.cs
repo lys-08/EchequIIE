@@ -69,7 +69,7 @@ public class Board : MonoBehaviour
             {
                 var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
                 piece1.transform.localScale = Vector3.one;
-                piece1.name = "Row : " + i + ", Col : " + j; // TODO : remove
+                piece1.name = "Row : " + i + ", Col : " + j;
                 piece1.transform.localPosition = new Vector3(j * 1.25f, 0.01f,  i * 1.25f);
                 piece1.GetComponent<ExampleTouch>().SetPosition(i, j);
                 pieces[i, j] = piece1;
@@ -216,8 +216,8 @@ public class Board : MonoBehaviour
      */
     public bool IsEmpty(Position pos)
     {
-        Piece piece = this[pos].GetComponentInChildren<Piece>();
-        return piece == null;
+        Piece p = this[pos].GetComponentInChildren<Piece>();
+        return p == null;
     }
 
     /**
@@ -249,8 +249,7 @@ public class Board : MonoBehaviour
      */
     public bool IsInCheck(Player player)
     {
-        Player color;
-        color = player == Player.Black ? Player.White : Player.Black;
+        Player color = player == Player.Black ? Player.White : Player.Black;
 
         return PiecePositionsFor(color).Any(pos =>
         {
@@ -285,7 +284,6 @@ public class Board : MonoBehaviour
             return piece1.Value.GetMoves(piece1.Key, this).Any(move =>
             {
                 Piece p = board[move.ToPos.Row, move.ToPos.Column];
-                Debug.Log($"Is In check copy : {p != null && p.Type == PieceType.King}");
                 return p != null && p.Type == PieceType.King;
             });
         });
