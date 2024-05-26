@@ -43,4 +43,21 @@ public class NormalMove : Move
 
         return capture || piece.Type == PieceType.Pawn;
     }
+    
+    /**
+     * Execute itself on the copy of the board. Returns true if a piece is captured or a pawn moved
+     * -> like the command pattern
+     */
+    public override bool ExecuteCopy(Piece[,] board)
+    {
+        bool capture = false;
+        if (board[ToPos.Row, ToPos.Column] != null)
+        {
+            capture = true;
+            board[ToPos.Row, ToPos.Column] = null;
+        }
+
+        board[ToPos.Row, ToPos.Column] = board[FromPos.Row, FromPos.Column];
+        return capture || board[ToPos.Row, ToPos.Column].Type == PieceType.Pawn;
+    }
 }

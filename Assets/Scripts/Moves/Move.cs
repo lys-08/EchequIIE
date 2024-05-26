@@ -17,22 +17,22 @@ public abstract class Move //: MonoBehaviour
     public abstract bool Execute(Board board);
 
     /**
+     * Execute itself on the copy of the board. Returns true if a piece is captured or a pawn moved
+     * -> like the command pattern
+     */
+    public abstract bool ExecuteCopy(Piece[,] board);
+
+    /**
      * Return true if the move does not leave the current player's king in check
      *
-     * TODO : check
      */
     public virtual bool IsLegal(Board board)
     {
         Player player = board[FromPos].GetComponentInChildren<Piece>().Color;
 
-        Board boardCopy = board.Copy();
-        game.Board = boardCopy;
-        Execute(boardCopy);
-        bool isLegal = !boardCopy.IsInCheck(player);
-
-        game.Board = board;
-        GameObject.Destroy(boardCopy);
-
-        return isLegal;
+        Piece[,] boardCopy = board.Copy();
+        ExecuteCopy(boardCopy);
+        
+        return !board.IsInCheckCopy(boardCopy, player);
     }
 }

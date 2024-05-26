@@ -70,11 +70,9 @@ public class Board : MonoBehaviour
                 var piece1 = Instantiate<GameObject>(this.piece, this.gameObject.transform);
                 piece1.transform.localScale = Vector3.one;
                 piece1.name = "Row : " + i + ", Col : " + j; // TODO : remove
-                //piece1.transform.position = new Vector3(-0.09f + j * 1.25f * 0.02f, 0.05f * 0.02f, -0.09f + i * 1.25f * 0.02f);
                 piece1.transform.localPosition = new Vector3(j * 1.25f, 0.01f,  i * 1.25f);
                 piece1.GetComponent<ExampleTouch>().SetPosition(i, j);
                 pieces[i, j] = piece1;
-                Debug.Log($"INSTANTIATION DU CARRE : row :{i}, col :{j}");
             }
         }
         
@@ -260,13 +258,53 @@ public class Board : MonoBehaviour
             return piece.CanCaptureOpponentKing(pos, this);
         });
     }
+    
+    /**
+     * Returns true if the player's king is in check
+     */
+    public bool IsInCheckCopy(Piece[,] board, Player player)
+    {
+        Player color;
+        color = player == Player.Black ? Player.White : Player.Black;
+
+        // PiecePositionFor
+        Dictionary<Position, Piece> pieceList = new Dictionary<Position, Piece>();
+        for (int r = 0; r < 8; r++)
+        {
+            for (int c = 0; c < 8; c++)
+            {
+                if (board[r, c] != null && board[r, c].Color == color)
+                {
+                    pieceList.Add(new Position(r, c), board[r, c]);
+                }
+            }
+        }
+        
+        return pieceList.Any(piece =>
+        {
+            // Can capture opponent king
+            return piece.Value.GetMoves(piece.Key, this).Any(move =>
+            {
+                Piece p = board[move.ToPos.Row, move.ToPos.Column];
+                return p != null && p.Type == PieceType.King;
+            });
+        });
+    }
 
     /**
      * Copy the board
      */
-    public Board Copy()
+    public Piece[,] Copy()
     {
-        Board copy = Instantiate(this);
+        Piece[,] copy = new Piece[8,8];
+
+        for (int r = 0; r < 8; r++)
+        {
+            for (int c = 0; c < 8; c++)
+            {
+                copy[r, c] = this[r, c].GetComponentInChildren<Piece>();
+            }
+        }
         return copy;
     }
 

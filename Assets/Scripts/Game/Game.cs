@@ -52,9 +52,9 @@ public class Game : MonoBehaviour
         }
 
         Piece piece = Board[pos].GetComponentInChildren<Piece>();
-        return piece.GetMoves(pos, Board);// TODO OO
+        //return piece.GetMoves(pos, Board);// TODO : remove
         IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
-        return moveCandidates.Where(move => move.IsLegal(Board)); // TODO Only the legal move are returned
+        return moveCandidates.Where(move => move.IsLegal(Board)); //Only legal moves are returned
     }
 
     /**
@@ -129,6 +129,7 @@ public class Game : MonoBehaviour
     {
         // We get all moves possible for a piece at the given position (if the piece has the good color)
         List<Move> moves = LegalMovesForPiece(pos).ToList();
+        Debug.Log("On FromPos Selected");
         
         // If there is no
         if (moves.Any()) selectedPos = pos;
@@ -188,7 +189,7 @@ public class Game : MonoBehaviour
             return piece.GetMoves(pos, Board);
         });
 
-        return moveCandidates;//.Where(move => move.IsLegal(Board));// TODO : check detection
+        return moveCandidates.Where(move => move.IsLegal(Board)); // TODO : check detection
     }
 
     /**

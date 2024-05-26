@@ -78,4 +78,20 @@ public class PawnPromotionMove : Move
         game.promoteSound.Play();
         return true; // always move a pawn
     }
+    
+    /**
+     * Execute itself on the copy of the board. Returns true if a piece is captured or a pawn moved
+     * -> like the command pattern
+     */
+    public override bool ExecuteCopy(Piece[,] board)
+    {
+        if (board[ToPos.Row, ToPos.Column] != null)
+        {
+            board[ToPos.Row, ToPos.Column] = null;
+        }
+
+        board[ToPos.Row, ToPos.Column] = board[FromPos.Row, FromPos.Column];
+        board[FromPos.Row, FromPos.Column] = null;
+        return true;
+    }
 }
