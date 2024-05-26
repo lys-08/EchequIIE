@@ -34,6 +34,10 @@ public class Game : MonoBehaviour
     
     private int noCaptureOrPawnMovesCount = 0; // count the consecutive none capturing and none pawn moves
     
+    // States of the game
+    private string currentState;
+    private Dictionary<string, int> stateHistory = new Dictionary<string, int>();
+    
     // STATE
     private StateMachine stateMachine_;
     public StateMachine GamestateMachine => stateMachine_;
@@ -64,9 +68,14 @@ public class Game : MonoBehaviour
         Board.SetPawnSkipPosition(CurrentPlayer, null);
         bool captureOrPawn = move.Execute(Board);
 
-        if (captureOrPawn) noCaptureOrPawnMovesCount = 0;
+        if (captureOrPawn)
+        {
+            noCaptureOrPawnMovesCount = 0;
+            stateHistory.Clear();
+        }
         else noCaptureOrPawnMovesCount++;
         
+        UpdateStateString();
         CheckForGameOver();
         
         if (CurrentPlayer == Player.Black)
@@ -219,11 +228,10 @@ public class Game : MonoBehaviour
             Result = Result.Draw(EndReason.FiftyMoveRule);
             stateMachine_.TransitionTo(stateMachine_.gameOverState);
         }
-    }
-
-    public bool IsGameOver()
-    {
-        return Result != null;
+        else if (ThreeFoldRepetition())
+        {
+            Result = Result.Draw(EndReason.ThreefoldRepetition);
+        }
     }
 
     /**
@@ -236,6 +244,26 @@ public class Game : MonoBehaviour
 
         return fullMoves == 50;
     }
+
+    /**
+     * Updates the string for the state and check if it's one we haven't seen before.
+     * If so, we add it with a value of 1, otherwise we increment it's count
+     */
+    private void UpdateStateString()
+    {
+        currentState = new StateString(CurrentPlayer, Board).ToString();
+
+        if (!stateHistory.ContainsKey(currentState)) stateHistory[currentState] = 1;
+        else stateHistory[currentState]++;
+    }
+
+    /**
+     * Returns whether the current state string has been encountered three times
+     */
+    private bool ThreeFoldRepetition()
+    {
+        return stateHistory[currentState] == 3;
+    }
     
     
     #region Unity Events
@@ -247,6 +275,10 @@ public class Game : MonoBehaviour
         // Initialisation of the board
         Board = Board.GetComponentInChildren<Board>();
         Board = Board.InitBoard();
+        
+        // Initialisation of the state string
+        currentState = new StateString(CurrentPlayer, Board).ToString();
+        stateHistory[currentState] = 1;
     }
 
     private void Start()
