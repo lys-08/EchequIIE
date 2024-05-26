@@ -88,6 +88,19 @@ public class King : Piece
             if (board.IsEmpty(toPos) || board[toPos].GetComponentInChildren<Piece>().Color != Color) yield return toPos; // there is no piece or there is an opponent piece
         }
     }
+    
+    /**
+     * Returns the position where the king is allow to move
+     */
+    private IEnumerable<Position> MovePositionsCopy(Position pos, Piece[,] board)
+    {
+        foreach (Direction dir in directions)
+        {
+            Position toPos = pos + dir;
+            if (!Board.IsInside(toPos)) continue; // The position is inside the board
+            if (board[pos.Row, pos.Column] == null || board[pos.Row, pos.Column].Color != Color) yield return toPos; // there is no piece or there is an opponent piece
+        }
+    }
 
     /**
      * Returns a collection containing all the moves the piece can make
@@ -98,12 +111,30 @@ public class King : Piece
         {
             yield return new NormalMove(pos, toPos);
         }
-
+        
         if (CanCastleKS(pos, board))
         {
             yield return new CastleMove(MoveType.CastleKS, pos);
         }
         if (CanCastleQS(pos, board)) yield return new CastleMove(MoveType.CastleQS, pos);
+    }
+    
+    /**
+     * Returns a collection containing all the moves the piece can make
+     */
+    public override IEnumerable<Move> GetMovesCopy(Position pos, Piece[,] board)
+    {
+        foreach (Position toPos in MovePositionsCopy(pos, board))
+        {
+            yield return new NormalMove(pos, toPos);
+        }
+
+        Game game = FindObjectOfType<Game>();
+        if (CanCastleKS(pos, game.Board))
+        {
+            yield return new CastleMove(MoveType.CastleKS, pos);
+        }
+        if (CanCastleQS(pos, game.Board)) yield return new CastleMove(MoveType.CastleQS, pos);
     }
     
     /**

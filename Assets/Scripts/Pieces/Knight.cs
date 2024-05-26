@@ -40,6 +40,18 @@ public class Knight : Piece
         return PotentialPositions(pos).Where(pos => Board.IsInside(pos)
                                                     && (board.IsEmpty(pos) || board[pos].GetComponentInChildren<Piece>().Color != Color));
     }
+    
+    /**
+     * Returns the position where the knight is allow to move
+     * -> A position where the knight is allow to move is a position :
+     *      - inside the board
+     *      - where there is no chess piece or the chess piece is one of the opponent's
+     */
+    private IEnumerable<Position> MovePositionsCopy(Position pos, Piece[,] board)
+    {
+        return PotentialPositions(pos).Where(pos => Board.IsInside(pos)
+                                                    && (board[pos.Row, pos.Column] == null || board[pos.Row, pos.Column].Color != Color));
+    }
 
     /**
      * Returns a collection containing all the moves the piece can make
@@ -47,5 +59,13 @@ public class Knight : Piece
     public override IEnumerable<Move> GetMoves(Position pos, Board board)
     {
         return MovePositions(pos, board).Select(toPos => new NormalMove(pos, toPos));
+    }
+    
+    /**
+     * Returns a collection containing all the moves the piece can make
+     */
+    public override IEnumerable<Move> GetMovesCopy(Position pos, Piece[,] board)
+    {
+        return MovePositionsCopy(pos, board).Select(toPos => new NormalMove(pos, toPos));
     }
 }

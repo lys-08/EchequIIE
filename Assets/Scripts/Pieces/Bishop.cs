@@ -30,4 +30,12 @@ public class Bishop : Piece
     {
         return MovePositionsDir(pos, board, directions).Select(toPos => new NormalMove(pos, toPos));
     }
+    
+    /**
+     * Returns a collection containing all the moves the piece can make
+     */
+    public override IEnumerable<Move> GetMovesCopy(Position pos, Piece[,] board)
+    {
+        return MovePositionsDirCopy(pos, board, directions).Select(toPos => new NormalMove(pos, toPos));
+    }
 }

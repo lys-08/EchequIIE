@@ -283,7 +283,7 @@ public class Board : MonoBehaviour
 
         return PiecePositionsForCopy(pieces, color).Any(pos =>
         {
-            return pieces[pos.Row, pos.Column].CanCaptureOpponentKingCopy(pos, this, pieces);
+            return pieces[pos.Row, pos.Column].CanCaptureOpponentKingCopy(pos, pieces);
         });
         // PiecePositionFor
         /*
