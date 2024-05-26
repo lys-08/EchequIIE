@@ -52,7 +52,6 @@ public class Game : MonoBehaviour
         }
 
         Piece piece = Board[pos].GetComponentInChildren<Piece>();
-        //return piece.GetMoves(pos, Board);// TODO : remove
         IEnumerable<Move> moveCandidates = piece.GetMoves(pos, Board);
         return moveCandidates.Where(move => move.IsLegal(Board)); //Only legal moves are returned
     }
@@ -201,9 +200,7 @@ public class Game : MonoBehaviour
         {
             if (Board.IsInCheck(CurrentPlayer))
             {
-                if (CurrentPlayer == Player.Black) Result = Result.Win(Player.White);
-                else Result = Result.Win(Player.Black);
-                
+                Result = Result.Win(CurrentPlayer == Player.Black ? Player.White : Player.Black);
                 stateMachine_.TransitionTo(stateMachine_.gameOverState);
             }
             else

@@ -73,9 +73,7 @@ public class CastleMove : Move
          */
         if (board.IsInCheck(player)) return false;
         
-        Game game = GameObject.FindObjectOfType<Game>();
         Piece[,] boardCopy = board.Copy();
-
         Position kingPosInCopy = FromPos;
         for (int i = 0; i < 2; i++)
         {

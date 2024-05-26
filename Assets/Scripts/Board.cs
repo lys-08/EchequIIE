@@ -264,8 +264,7 @@ public class Board : MonoBehaviour
      */
     public bool IsInCheckCopy(Piece[,] board, Player player)
     {
-        Player color;
-        color = player == Player.Black ? Player.White : Player.Black;
+        Player color = player == Player.Black ? Player.White : Player.Black;
 
         // PiecePositionFor
         Dictionary<Position, Piece> pieceList = new Dictionary<Position, Piece>();
@@ -280,12 +279,13 @@ public class Board : MonoBehaviour
             }
         }
         
-        return pieceList.Any(piece =>
+        return pieceList.Any(piece1 =>
         {
             // Can capture opponent king
-            return piece.Value.GetMoves(piece.Key, this).Any(move =>
+            return piece1.Value.GetMoves(piece1.Key, this).Any(move =>
             {
                 Piece p = board[move.ToPos.Row, move.ToPos.Column];
+                Debug.Log($"Is In check copy : {p != null && p.Type == PieceType.King}");
                 return p != null && p.Type == PieceType.King;
             });
         });
