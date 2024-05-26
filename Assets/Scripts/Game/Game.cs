@@ -187,7 +187,7 @@ public class Game : MonoBehaviour
             return piece.GetMoves(pos, Board);
         });
 
-        return moveCandidates.Where(move => move.IsLegal(Board)); // TODO : check detection
+        return moveCandidates.Where(move => move.IsLegal(Board));
     }
 
     /**

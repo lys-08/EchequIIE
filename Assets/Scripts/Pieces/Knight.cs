@@ -14,13 +14,6 @@ public class Knight : Piece
         Color = color;
     }
 
-    public override Piece Copy()
-    {
-        Knight copy = new Knight(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
-    }
-
     /**
      * Returns the position where the knight can potentially move
      */

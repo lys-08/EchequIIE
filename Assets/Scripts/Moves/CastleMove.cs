@@ -52,12 +52,10 @@ public class CastleMove : Move
      * Execute itself on the copy of the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public override bool ExecuteCopy(Piece[,] board)
+    public override void ExecuteCopy(Piece[,] board)
     {
         new NormalMove(FromPos, ToPos).ExecuteCopy(board);
         new NormalMove(rookFromPos, rookToPos).ExecuteCopy(board);
-        
-        return false; // always move a pawn
     }
     
     /**

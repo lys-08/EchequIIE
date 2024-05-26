@@ -23,13 +23,6 @@ public class Pawn : Piece
 
     private Direction forward;
 
-    public override Piece Copy()
-    {
-        Pawn copy = new Pawn();
-        copy.HasMoved = HasMoved;
-        return copy;
-    }
-
     /**
      * Return true id the pawn can move forward into the given position
      */
@@ -132,6 +125,18 @@ public class Pawn : Piece
         return DiagonalMoves(from, board).Any(move =>
         {
             Piece piece = board[move.ToPos].GetComponentInChildren<Piece>();
+            return piece != null && piece.Type == PieceType.King;
+        });
+    }
+    
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public virtual bool CanCaptureOpponentKingCopy(Position from, Board board, Piece[,] pieces)
+    {
+        return DiagonalMoves(from, board).Any(move =>
+        {
+            Piece piece = pieces[move.ToPos.Row, move.ToPos.Column];
             return piece != null && piece.Type == PieceType.King;
         });
     }

@@ -230,7 +230,6 @@ public class Board : MonoBehaviour
             for (int c = 0; c < 8; c++)
             {
                 Position pos = new Position(r, c);
-
                 if (!IsEmpty(pos)) yield return pos;
             }
         }
@@ -242,6 +241,23 @@ public class Board : MonoBehaviour
     public IEnumerable<Position> PiecePositionsFor(Player player)
     {
         return PiecePositions().Where(pos => this[pos].GetComponentInChildren<Piece>().Color == player);
+    }
+    
+    /**
+     * Returns all the pieces positions of a player
+     */
+    public IEnumerable<Position> PiecePositionsForCopy(Piece[,] pieces, Player player)
+    {
+        Dictionary<Position, Piece> positions = new();
+        for (int r = 0; r < 8; r++)
+        {
+            for (int c = 0; c < 8; c++)
+            {
+                if (pieces[r,c] != null) positions.Add(new Position(r,c), pieces[r,c]);
+            }
+        }
+        
+        return positions.Keys.Where(pos => positions.TryGetValue(pos, out var p) && p.Color == player);
     }
 
     /**
@@ -261,32 +277,32 @@ public class Board : MonoBehaviour
     /**
      * Returns true if the player's king is in check
      */
-    public bool IsInCheckCopy(Piece[,] board, Player player)
+    public bool IsInCheckCopy(Piece[,] pieces, Player player)
     {
         Player color = player == Player.Black ? Player.White : Player.Black;
 
+        return PiecePositionsForCopy(pieces, color).Any(pos =>
+        {
+            return pieces[pos.Row, pos.Column].CanCaptureOpponentKingCopy(pos, this, pieces);
+        });
         // PiecePositionFor
+        /*
         Dictionary<Position, Piece> pieceList = new Dictionary<Position, Piece>();
         for (int r = 0; r < 8; r++)
         {
             for (int c = 0; c < 8; c++)
             {
-                if (board[r, c] != null && board[r, c].Color == color)
+                if (pieces[r, c] != null && pieces[r, c].Color == color)
                 {
-                    pieceList.Add(new Position(r, c), board[r, c]);
+                    pieceList.Add(new Position(r, c), pieces[r, c]);
                 }
             }
         }
         
         return pieceList.Any(piece1 =>
         {
-            // Can capture opponent king
-            return piece1.Value.GetMoves(piece1.Key, this).Any(move =>
-            {
-                Piece p = board[move.ToPos.Row, move.ToPos.Column];
-                return p != null && p.Type == PieceType.King;
-            });
-        });
+            return piece1.Value.CanCaptureOpponentKingCopy(piece1.Key, board, pieces);
+        });*/
     }
 
     /**

@@ -75,13 +75,6 @@ public class King : Piece
 
         return IsUnmovedRook(rookPos, board) && AllEmptyForCastle(betweenPos, board);
     }
-
-    public override Piece Copy()
-    {
-        King copy = new King(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
-    }
     
     /**
      * Returns the position where the king is allow to move
@@ -125,5 +118,15 @@ public class King : Piece
         });
     }
     
-    
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public virtual bool CanCaptureOpponentKingCopy(Position from, Board board, Piece[,] pieces)
+    {
+        return MovePositions(from, board).Any(toPos =>
+        {
+            Piece piece = pieces[toPos.Row, toPos.Column];
+            return piece != null && piece.Type == PieceType.King;
+        });
+    }
 }

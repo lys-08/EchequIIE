@@ -27,13 +27,6 @@ public class Queen : Piece
         Color = color;
     }
     
-    public override Piece Copy()
-    {
-        Queen copy = new Queen(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
-    }
-    
     /**
      * Returns a collection containing all the moves the piece can make
      */

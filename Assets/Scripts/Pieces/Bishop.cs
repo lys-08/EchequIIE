@@ -22,14 +22,7 @@ public class Bishop : Piece
     {
         Color = color;
     }
-
-    public override Piece Copy()
-    {
-        Bishop copy = new Bishop(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
-    }
-
+    
     /**
      * Returns a collection containing all the moves the piece can make
      */

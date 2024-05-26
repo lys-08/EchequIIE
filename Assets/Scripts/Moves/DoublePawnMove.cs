@@ -34,9 +34,8 @@ public class DoublePawnMove : Move
      * Execute itself on the copy of the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public override bool ExecuteCopy(Piece[,] board)
+    public override void ExecuteCopy(Piece[,] board)
     {
         new NormalMove(FromPos, ToPos).ExecuteCopy(board);
-        return true; // always move a pawn
     }
 }

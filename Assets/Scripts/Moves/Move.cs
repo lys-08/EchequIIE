@@ -20,7 +20,7 @@ public abstract class Move //: MonoBehaviour
      * Execute itself on the copy of the board. Returns true if a piece is captured or a pawn moved
      * -> like the command pattern
      */
-    public abstract bool ExecuteCopy(Piece[,] board);
+    public abstract void ExecuteCopy(Piece[,] board);
 
     /**
      * Return true if the move does not leave the current player's king in check

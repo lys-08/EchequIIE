@@ -11,8 +11,6 @@ public abstract class Piece : MonoBehaviour
     public bool HasMoved { get; set; } = false;
 
     
-    public abstract Piece Copy();
-    
     /**
      * Returns a collection containing all the moves the piece can make
      */
@@ -59,6 +57,18 @@ public abstract class Piece : MonoBehaviour
         return GetMoves(from, board).Any(move =>
         {
             Piece piece = board[move.ToPos].GetComponentInChildren<Piece>();
+            return piece != null && piece.Type == PieceType.King;
+        });
+    }
+    
+    /**
+     * Returns true if the opponent's king is in check
+     */
+    public virtual bool CanCaptureOpponentKingCopy(Position from, Board board, Piece[,] pieces)
+    {
+        return GetMoves(from, board).Any(move =>
+        {
+            Piece piece = pieces[move.ToPos.Row, move.ToPos.Column];
             return piece != null && piece.Type == PieceType.King;
         });
     }
