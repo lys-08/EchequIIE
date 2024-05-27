@@ -35,7 +35,7 @@ public class Game : MonoBehaviour
     private int noCaptureOrPawnMovesCount = 0; // count the consecutive none capturing and none pawn moves
     
     // States of the game
-    private string currentState;
+    private StateString currentState;
     private Dictionary<string, int> stateHistory = new Dictionary<string, int>();
     
     // STATE
@@ -202,13 +202,15 @@ public class Game : MonoBehaviour
     /**
      * Check if there is game over
      */
-    private void CheckForGameOver()
+    public void CheckForGameOver()
     {
-        if (!AllLegalMovesFor(CurrentPlayer).Any())
+        Player opponent = CurrentPlayer == Player.White ? Player.Black : Player.White;
+        
+        if (!AllLegalMovesFor(opponent).Any())
         {
-            if (Board.IsInCheck(CurrentPlayer))
+            if (Board.IsInCheck(opponent))
             {
-                Result = Result.Win(CurrentPlayer == Player.Black ? Player.White : Player.Black);
+                Result = Result.Win(opponent == Player.Black ? Player.White : Player.Black);
                 stateMachine_.TransitionTo(stateMachine_.gameOverState);
             }
             else
@@ -231,6 +233,7 @@ public class Game : MonoBehaviour
         else if (ThreeFoldRepetition())
         {
             Result = Result.Draw(EndReason.ThreefoldRepetition);
+            stateMachine_.TransitionTo(stateMachine_.gameOverState);
         }
     }
 
@@ -251,10 +254,10 @@ public class Game : MonoBehaviour
      */
     private void UpdateStateString()
     {
-        currentState = new StateString(CurrentPlayer, Board).ToString();
-
-        if (!stateHistory.ContainsKey(currentState)) stateHistory[currentState] = 1;
-        else stateHistory[currentState]++;
+        string state = currentState.CreateStateString(CurrentPlayer, Board);
+        
+        if (!stateHistory.ContainsKey(state)) stateHistory[state] = 1;
+        else stateHistory[state]++;
     }
 
     /**
@@ -262,7 +265,8 @@ public class Game : MonoBehaviour
      */
     private bool ThreeFoldRepetition()
     {
-        return stateHistory[currentState] == 3;
+        string state = currentState.CreateStateString(CurrentPlayer, Board);
+        return stateHistory[state] == 3;
     }
     
     
@@ -277,8 +281,8 @@ public class Game : MonoBehaviour
         Board = Board.InitBoard();
         
         // Initialisation of the state string
-        currentState = new StateString(CurrentPlayer, Board).ToString();
-        stateHistory[currentState] = 1;
+        currentState = new StateString();
+        stateHistory[currentState.CreateStateString(Player.White, Board)] = 1;
     }
 
     private void Start()
@@ -289,7 +293,6 @@ public class Game : MonoBehaviour
     private void Update()
     {
         stateMachine_.Update();
-        
     }
     
     #endregion

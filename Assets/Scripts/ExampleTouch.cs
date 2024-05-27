@@ -40,7 +40,6 @@ public class ExampleTouch : MonoBehaviour
                     Piece piece = game.Board[pos].GetComponentInChildren<Piece>();
                     if (piece == null  || piece.Color != game.CurrentPlayer)
                     {
-                        Debug.Log("nothing");
                         game.OnToPositionSelected(pos);
                     }
                     else
