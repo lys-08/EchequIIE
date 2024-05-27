@@ -57,7 +57,8 @@ public class PawnPromotionMove : Move
                 obj.GetComponent<Rook>().Color = color;
                 break;
         }
-        obj.transform.rotation = color == Player.Black ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0);
+
+        obj.transform.localRotation = color == Player.Black ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0);
         return obj;
     }
 
