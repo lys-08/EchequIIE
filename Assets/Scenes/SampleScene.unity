@@ -123,6 +123,86 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &70638009
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 70638010}
+  - component: {fileID: 70638011}
+  - component: {fileID: 70638012}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &70638010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70638009}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1357532036}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &70638011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70638009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1631628248, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PreviewVisible: 1
+  RuntimeOcclusion: 0
+  RuntimeCollider: 0
+  mTrackableName: chess-bishop-piece-free-vector
+  mInitializedInEditor: 1
+  mDataSetPath: 
+  mAspectRatio: 1.4765682
+  mImageTargetType: 3
+  mWidth: 0.13544922
+  mHeight: 0.2
+  mRuntimeTexture: {fileID: 2800000, guid: 23aa663c3d14ad746bde6bcf9743c3c2, type: 3}
+  mMotionHint: 1
+  mTrackingOptimization: 0
+  mTrackingOptimizationNeedsUpgrade: 0
+  mPreview: {fileID: 70638012}
+--- !u!114 &70638012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70638009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mObserverBehaviour: {fileID: 70638011}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: chess-bishop-piece-free-vector
+  mDatasetName: 
+  mCastedBehaviour: {fileID: 70638011}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!82 &637437511 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1834799839646058626, guid: 3c29e694b671ebb4e904462721a03ecd,
@@ -135,7 +215,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 70638010}
     m_Modifications:
     - target: {fileID: 2924015818513625975, guid: 61cb111b97d61174fa704dcd490f7db2,
         type: 3}
@@ -145,7 +225,7 @@ PrefabInstance:
     - target: {fileID: 2924015818514050903, guid: 61cb111b97d61174fa704dcd490f7db2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 2924015818514050903, guid: 61cb111b97d61174fa704dcd490f7db2,
         type: 3}
@@ -155,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 2924015818514050903, guid: 61cb111b97d61174fa704dcd490f7db2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 2924015818514050903, guid: 61cb111b97d61174fa704dcd490f7db2,
         type: 3}
@@ -549,6 +629,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 654193600}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1357532036 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2924015818514050903, guid: 61cb111b97d61174fa704dcd490f7db2,
+    type: 3}
+  m_PrefabInstance: {fileID: 654193600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1358975948 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 2117148459143301469, guid: 3c29e694b671ebb4e904462721a03ecd,
@@ -893,5 +979,5 @@ SceneRoots:
   - {fileID: 7850507488599503066}
   - {fileID: 3638938892066135888}
   - {fileID: 885689032}
-  - {fileID: 654193600}
   - {fileID: 1033413202}
+  - {fileID: 70638010}
