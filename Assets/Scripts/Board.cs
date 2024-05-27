@@ -91,7 +91,7 @@ public class Board : MonoBehaviour
     {
         // BLACK PIECES
         var obj = Instantiate(blackPieces[0], this[7,0].transform);
-        /*obj.transform.localScale = Vector3.one;
+        obj.transform.localScale = Vector3.one;
         obj.transform.rotation = Quaternion.Euler(0, 90, 0);
         obj.AddComponent<Rook>();
         obj.GetComponent<Rook>().Color = Player.Black;
@@ -130,7 +130,7 @@ public class Board : MonoBehaviour
         obj.transform.localScale = Vector3.one;
         obj.transform.rotation = Quaternion.Euler(0, 90, 0);
         obj.AddComponent<Queen>();
-        obj.GetComponent<Queen>().Color = Player.Black;*/
+        obj.GetComponent<Queen>().Color = Player.Black;
         
         obj = Instantiate(blackPieces[4], this[7,4].transform);
         obj.transform.localScale = Vector3.one;
@@ -188,12 +188,12 @@ public class Board : MonoBehaviour
         
 
         for (int i = 0; i < 8; i++)
-        {/*
+        {
             obj = Instantiate(blackPieces[5], this[6,i].transform);
             obj.transform.localScale = Vector3.one;
             obj.transform.rotation = Quaternion.Euler(0, 90, 0);
             obj.AddComponent<Pawn>();
-            obj.GetComponent<Pawn>().Color = Player.Black;*/
+            obj.GetComponent<Pawn>().Color = Player.Black;
             
             obj = Instantiate(whitePieces[5], this[1,i].transform);
             obj.transform.localScale = Vector3.one;
@@ -201,12 +201,6 @@ public class Board : MonoBehaviour
             obj.AddComponent<Pawn>();
             obj.GetComponent<Pawn>().Color = Player.White;
         }
-        
-        obj = Instantiate(blackPieces[5], this[6,2].transform);
-        obj.transform.localScale = Vector3.one;
-        obj.transform.rotation = Quaternion.Euler(0, -90, 0);
-        obj.AddComponent<Pawn>();
-        obj.GetComponent<Pawn>().Color = Player.Black;
     }
 
     /**
