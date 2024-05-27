@@ -19,6 +19,13 @@ public class WhiteState : IState
     public void Enter()
     {
         game.CurrentPlayer = Player.White;
+        Debug.Log($"white : {game.Board.IsInCheck(Player.White)}");
+        Debug.Log($"black : {game.Board.IsInCheck(Player.Black)}");
+        
+        if (game.Board.IsInCheck(game.CurrentPlayer))
+        {
+            game.StartCoroutine(game.PrintCheckMenu());
+        }
     }
 
     public void Update()

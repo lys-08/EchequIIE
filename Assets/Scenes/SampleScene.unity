@@ -862,6 +862,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3638938892066135888}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3638938892066135890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4112433594966859160, guid: b11484428743ba84b960ddd0ad00e0d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3638938892066135888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7850507488599503066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -920,6 +926,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5314267833648913887, guid: 4e670171dca617843bcc34b23830cc84,
+        type: 3}
+      propertyPath: checkMenu
+      value: 
+      objectReference: {fileID: 3638938892066135890}
     - target: {fileID: 5314267833648913887, guid: 4e670171dca617843bcc34b23830cc84,
         type: 3}
       propertyPath: moveSound

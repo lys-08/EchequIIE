@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class Game : MonoBehaviour
     [field: SerializeField] public Board Board { get; set; }
     [SerializeField] public GameObject promotionMenu;
     [SerializeField] public GameObject gameOverMenu;
+    [SerializeField] public GameObject checkMenu;
     
     [SerializeField] public AudioSource moveSound;
     [SerializeField] public AudioSource captureSound;
@@ -41,8 +43,21 @@ public class Game : MonoBehaviour
     // STATE
     private StateMachine stateMachine_;
     public StateMachine GamestateMachine => stateMachine_;
-    
 
+
+    /**
+     * Print a message to informe the player that he is in check during 2 seconds
+     */
+    public IEnumerator PrintCheckMenu()
+    {
+        TextMeshProUGUI txt = checkMenu.GetComponentInChildren<TextMeshProUGUI>();
+        txt.text = $"{CurrentPlayer} is in check";
+    
+        checkMenu.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        checkMenu.SetActive(false);
+    }
+    
     /**
      * Returns all the legal moves that the piece at the given position can make
      * If there is no pieces then return Empty
